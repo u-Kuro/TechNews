@@ -65,7 +65,7 @@
                                     $sql1="INSERT INTO user(first_name,last_name,username,password,role)
                                         VALUES ('{$fname}','{$lname}','{$username}','{$password}','{0}')";
                                     if(mysqli_query($conn,$sql1)){
-                                        header("Location: {$hostname}/login.php?username=$username");
+                                        header("Location: login.php?username=$username");
                                     }
                                 }
                             }//sub else close
