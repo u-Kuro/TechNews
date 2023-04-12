@@ -65,7 +65,7 @@
                                     $row["role"]==1 ? header("Location: admin/post.php") : header("Location: user/home.php");
                                 }
                             } else {
-                                echo "<div class='alert alert-danger'>Username and Password are incorrect/$password</div>";}
+                                echo "<div class='alert alert-danger'>Username and Password are incorrect</div>";}
                             }//sub else close
                         } //root if close
                       ?>
