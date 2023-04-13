@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 ?>
   <div id="admin-content">
@@ -30,7 +30,7 @@ if(!isset($_SESSION["username"])){
                              VALUES('{$category}')";
 
                           if(mysqli_query($conn,$sql1)){
-                            header("Location:{$hostname}/admin/category.php");
+                            header("Location: category.php");
                           }
                        }
                   }

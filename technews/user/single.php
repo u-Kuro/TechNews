@@ -11,15 +11,29 @@ include 'header.php';
                     <div class="post-container">
                     <?php
                      $post_id= $_GET['id'];
-                     $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.description,post.post_img,user.username,post.category FROM post
+                     $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.description,post.post_img,post.author,post.category,post.content,post.post_url FROM post
                      LEFT JOIN category ON post.category=category.category_id
-                     LEFT JOIN user ON post.author=user.user_id
                      WHERE post_id={$post_id} ";
 
                      $result=mysqli_query($conn,$sql) or die("Query failed ");
                      if(mysqli_num_rows($result) > 0 ){
                        while($row = mysqli_fetch_assoc($result)) {
-
+                        $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+                        $image_link = $row['post_img'];
+                        if(!empty($image_link)){
+                            $headers = @get_headers($image_link);
+                            if($headers && strpos($headers[0], '200')) {
+                                $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                            }
+                        }
+                        $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+                        $content = $row['content'];
+                        $contentUrl = $row['post_url'];
+                        if(!empty($contentUrl)){
+                            $content = preg_replace("/\[\+\d+ chars\]/", "<a href='$contentUrl'> see more </a>", $content);
+                        } else {
+                            $content = preg_replace("/\[\+\d+ chars\]/", "", $content);
+                        }
                     ?>
                         <div class="post-content single-post">
                             <h3><?php echo $row['title'];?></h3>
@@ -31,16 +45,16 @@ include 'header.php';
                                 </span>
                                 <span>
                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                    <a href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row["username"];?></a>
+                                    <a href='author.php?author=<?php echo $row['author']; ?>'><?php echo $row["author"];?></a>
                                 </span>
                                 <span>
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
-                                    <?php echo $row['post_date'];?>
+                                    <?php echo $post_date;?>
                                 </span>
                             </div>
-                            <img class="single-feature-image" src="../images/<?php echo $row['post_img'];?>" alt=""/>
+                            <?php echo $imgHTML;?>
                             <p class="description">
-                            <?php echo $row['description'];?>
+                                <?php echo $content;?>
                             </p>
                         </div>
                         <?php

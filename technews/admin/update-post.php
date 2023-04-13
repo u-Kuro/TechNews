@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 ?>
 <div id="admin-content">
@@ -17,9 +17,8 @@ if(!isset($_SESSION["username"])){
     <div class="col-md-offset-3 col-md-6">
      <?php
      $post_id=$_GET['id']; //get id which we want to update
-     $sql="SELECT post.post_id,post.title,post.description,category.category_name,post.post_img,post.category FROM post
+     $sql="SELECT post.post_id,post.title,post.author,post.description,category.category_name,post.post_img,post.category FROM post
      LEFT JOIN category ON post.category=category.category_id
-     LEFT JOIN user ON post.author=user.user_id
      WHERE post_id={$post_id}";
 
         $result=mysqli_query($conn,$sql) or die("Query failed ");
@@ -34,7 +33,11 @@ if(!isset($_SESSION["username"])){
             </div>
             <div class="form-group">
                 <label for="exampleInputTile">Title</label>
-                <input type="text" name="post_title"  class="form-control" id="exampleInputUsername" value="<?php echo $row['title']?>">
+                <input type="text" name="post_title"  class="form-control" id="exampleInputTitle" value="<?php echo $row['title']?>">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputAuthor">Author</label>
+                <input type="text" name="post_author"  class="form-control" id="exampleInputAuthor" value="<?php echo $row['author']?>">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1"> Description</label>

@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 
 if(empty($_FILES['new-image']['name'])){ //agr user image upload nhi krega means agr superglobal variable files me   name key empty hai
@@ -70,7 +70,7 @@ if($_POST['old_category'] != $_POST['category']){
 $result=mysqli_multi_query($conn,$sql);
 
 if($result){ //if query success
-	header("Location: {$hostname}/admin/post.php");
+	header("Location: post.php");
 }else{
 echo "Query Failed";
 }

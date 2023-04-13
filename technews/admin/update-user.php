@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
    
 if(isset($_POST["submit"])){
@@ -23,7 +23,7 @@ $role=mysqli_real_escape_string($conn,$_POST["role"]);
 $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$user}',role='{$role}' WHERE user_id={$user_id}";
 
  if(mysqli_query($conn,$sql)){
-    header("Location:{$hostname}/admin/users.php");
+    header("Location:users.php");
     }
   }
 ?>

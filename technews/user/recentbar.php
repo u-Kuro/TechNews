@@ -11,10 +11,19 @@
     $result=mysqli_query($conn,$sql) or die("Query failed ");
     if(mysqli_num_rows($result) > 0 ){
         while($row = mysqli_fetch_assoc($result)) {
+            $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+            $image_link = $row['post_img'];
+            if(!empty($image_link)){
+                $headers = @get_headers($image_link);
+                if($headers && strpos($headers[0], '200')) {
+                    $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                }
+            }
+            $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
     ?>
     <div class="recent-post">
         <a class="post-img" href="single.php?id=<?php echo $row['post_id'];?>">
-            <img src="../images/<?php echo $row['post_img'];?>" alt=""/>
+            <?php echo $imgHTML;?>
         </a>
         <div class="post-content">
             <h5><a href="single.php?id=<?php echo $row['post_id'];?>"><?php echo $row["title"];?></a></h5>
@@ -24,7 +33,7 @@
             </span>
             <span>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
-            <?php echo $row["post_date"];?>
+            <?php echo $post_date;?>
             </span>
             <a class="read-more" href="single.php?id=<?php echo $row['post_id'];?>">read more</a>
         </div>

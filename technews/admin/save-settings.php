@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 
 if(empty($_FILES['logo']['name'])){
@@ -44,7 +44,7 @@ $sql = "UPDATE settings SET websitename='{$_POST["website_name"]}',logo='{$file_
 $result = mysqli_query($conn,$sql);
 
 if($result){
-  header("location: {$hostname}/admin/settings.php");
+  header("location: settings.php");
 }else{
   echo "Query Failed: Settings";
 }

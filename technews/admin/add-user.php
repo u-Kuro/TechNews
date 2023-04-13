@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 //Save User information Into Database
 
@@ -30,7 +30,7 @@ $result=mysqli_query($conn,$sql) or die("Query failed");
          VALUES ('{$fname}','{$lname}','{$user}','{$password}','{$role}')";
 
       if(mysqli_query($conn,$sql1)){
-        header("Location:{$hostname}/admin/users.php");
+        header("Location: users.php");
       }
  }
 }

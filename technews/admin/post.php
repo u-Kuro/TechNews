@@ -3,9 +3,9 @@ include "../config.php";
 session_start();
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 ?>
   <div id="admin-content">
@@ -29,22 +29,12 @@ if(!isset($_SESSION["username"])){
 
               //This is secure query for seleled coloumns
               if($_SESSION["user_role"]==1){  //means normal user hai toh redirect
-                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,user.username,post.category FROM post
+                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
-                LEFT JOIN user ON post.author=user.user_id
                 ORDER BY post_id DESC LIMIT {$offset}, {$limit}";   //view latest post information
-
-               }elseif($_SESSION["user_role"]==0){    //normal user admin ki post na dekh ske
-                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,user.username,post.category FROM post
-                LEFT JOIN category ON post.category=category.category_id
-                LEFT JOIN user ON post.author=user.user_id
-                WHERE post.author={$_SESSION['user_id']}
-                ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
-               }
-
+              }
               $result=mysqli_query($conn,$sql) or die("Query failed ");
               if(mysqli_num_rows($result) > 0 ){
-
                ?>
                   <table class="content-table">
                       <thead>
@@ -60,19 +50,18 @@ if(!isset($_SESSION["username"])){
                       <?php
                       $serial_number=$offset+1;
                       while($row = mysqli_fetch_assoc($result)) {
+                          $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
                           ?>
                           <tr>
                               <!-- <td class='id'><?php //echo $row["post_id"];?></td> don't show post id instead of this we will use serial number according to offset -->
                               <!-- <td class='id'><?php //echo $offset;?></td> -->
-
-
                               <td class='id'><?php echo $serial_number; ?></td>
                               <td><?php echo $row["title"];?></td>
                               <td><?php echo $row["category_name"];?></td>
-                              <td><?php echo $row["post_date"];?></td>
-                              <td><?php echo $row["username"];?></td>
+                              <td><?php echo $post_date;?></td>
+                              <td><?php echo $row["author"];?></td>
                               <td class='edit'><a href='update-post.php?id=<?php echo $row["post_id"];?>'><i class='fa fa-edit'></i></a></td>
-                <td class='delete'><a href='delete-post.php?id=<?php echo $row["post_id"];?>&catid=<?php echo $row["category"];?>'><i class='fa fa-trash-o'></i></a></td>
+                              <td class='delete'><a href='delete-post.php?id=<?php echo $row["post_id"];?>&catid=<?php echo $row["category"];?>'><i class='fa fa-trash-o'></i></a></td>
                           </tr>
                           <?php
                           $serial_number++; //for increments
@@ -84,8 +73,6 @@ if(!isset($_SESSION["username"])){
                 //show pagenation codes
                 if($_SESSION["user_role"]==1){
                   $sql1="SELECT * FROM post";       //jo user hai usko apni hi post dikhegi
-                }elseif($_SESSION["user_role"]==0){
-                  $sql1="SELECT * FROM post WHERE post.author={$_SESSION['user_id']}";
                 }
 
                 $result1=mysqli_query($conn,$sql1) or die("Query Failed");

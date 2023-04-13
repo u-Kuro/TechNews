@@ -10,20 +10,16 @@ include 'header.php';
               <!-- post-container -->
               <div class="post-container">
                 <?php
-                if(isset($_GET['aid'])){ //get author id from url bar
-                $auth_id=$_GET['aid'];
+                $author = "Author Not Found";
+                if(isset($_GET['author'])){ //get author id from url bar
+                  $author=$_GET['author'];
                 }
-                $sql1="SELECT * FROM post JOIN user
-                      ON post.author=user.user_id
-                      WHERE user_id={$auth_id}";
-                $result1=mysqli_query($conn,$sql1) or die("Query Failed");
-                $row1=mysqli_fetch_assoc($result1);
                  ?>
-                <h2 class="page-heading"><?php echo $row1['username']; ?></h2>
+                <h2 class="page-heading"><?php echo $author; ?></h2>
 
                 <?php
-                  if(isset($_GET['aid'])){
-                  $auth_id=$_GET['aid'];
+                  if(isset($_GET['author'])){
+                    $author=$_GET['author'];
                   }
 
                   $limit=3;
@@ -34,20 +30,28 @@ include 'header.php';
                     }
                     $offset=($page-1) * $limit;
 
-              $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,user.username,post.category FROM post
+              $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
               LEFT JOIN category ON post.category=category.category_id
-              LEFT JOIN user ON post.author=user.user_id
-              WHERE post.author={$auth_id}
+              WHERE post.author={$author}
               ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
 
               $result=mysqli_query($conn,$sql) or die("Query failed ");
               if(mysqli_num_rows($result) > 0 ){
                 while($row = mysqli_fetch_assoc($result)) {
+                  $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+                  $image_link = $row['post_img'];
+                  if(!empty($image_link)){
+                      $headers = @get_headers($image_link);
+                      if($headers && strpos($headers[0], '200')) {
+                          $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                      }
+                  }
+                    $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
                 ?>
                     <div class="post-content">
                         <div class="row">
                             <div class="col-md-4">
-                                <a class="post-img" href="single.php?id=<?php echo $row['post_id'];?>"><img src="../images/<?php echo $row['post_img'];?>" alt="blank"/></a>
+                                <a class="post-img" href="single.php?id=<?php echo $row['post_id'];?>"><?php echo $imgHTML;?></a>
                             </div>
                             <div class="col-md-8">
                                 <div class="inner-content clearfix">
@@ -55,15 +59,15 @@ include 'header.php';
                                     <div class="post-information">
                                         <span>
                                             <i class="fa fa-tags" aria-hidden="true"></i>
-  <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"];?></a>
+                                            <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"];?></a>
                                         </span>
                                         <span>
                                             <i class="fa fa-user" aria-hidden="true"></i>
-                                            <a href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row["username"];?></a>
+                                            <a href='author.php?author=<?php echo $row['author']; ?>'><?php echo $row["author"];?></a>
                                         </span>
                                         <span>
                                             <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            <?php echo $row["post_date"];?>
+                                            <?php echo $post_date;?>
                                         </span>
                                     </div>
                                     <p class="description">
@@ -90,7 +94,7 @@ include 'header.php';
                     $total_pages= ceil ($total_records / $limit);  //return upper value
                     echo "<ul class='pagination admin-pagination'>";
                     if($page>1){ //1>2
-                        echo'<li><a href="author.php?aid='.$auth_id.'&page='.($page - 1). '">Prev</a></li>';
+                        echo'<li><a href="author.php?author='.$author.'&page='.($page - 1). '">Prev</a></li>';
                     }
 
                     for ($i=1; $i<=$total_pages; $i++) { //means 3 time print buttons
@@ -100,10 +104,10 @@ include 'header.php';
                       }else{
                         $active="";
                       }
-                        echo '<li class="'.$active.'"><a href="author.php?aid='.$auth_id.'&page=' .$i .'">'.$i.'</a></li>';
+                        echo '<li class="'.$active.'"><a href="author.php?author='.$author.'&page=' .$i .'">'.$i.'</a></li>';
                     } //for close
                      if($total_pages>$page){
-                          echo'<li><a href="author.php?aid='.$auth_id.'&page='.($page + 1).'">Next</a></li>';
+                          echo'<li><a href="author.php?author='.$author.'&page='.($page + 1).'">Next</a></li>';
                      }
                       echo "</ul>";
                   }

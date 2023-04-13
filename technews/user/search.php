@@ -32,20 +32,28 @@ include 'header.php';
 
                 //SQL Main QUery jo search ke according data show kregi
                 //according to title and description
-                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,user.username,post.category FROM post
+                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
-                LEFT JOIN user ON post.author=user.user_id
-                WHERE post.title LIKE '%{$search_term}%' OR post.description LIKE '%{$search_term}%' OR user.username LIKE '%{$search_term}%' OR category.category_name LIKE '%{$search_term}%'
+                WHERE post.title LIKE '%{$search_term}%' OR post.description LIKE '%{$search_term}%' OR post.author LIKE '%{$search_term}%' OR category.category_name LIKE '%{$search_term}%'
                 ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
 
                 $result=mysqli_query($conn,$sql) or die("Query failed :Fetch Search Items");
                 if(mysqli_num_rows($result) > 0 ){
                   while($row = mysqli_fetch_assoc($result)) {
-                  ?>
+                        $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+                        $image_link = $row['post_img'];
+                        if(!empty($image_link)){
+                            $headers = @get_headers($image_link);
+                            if($headers && strpos($headers[0], '200')) {
+                                $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                            }
+                        }
+                        $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+                    ?>
                       <div class="post-content">
                           <div class="row">
                               <div class="col-md-4">
-                                  <a class="post-img" href="single.php?id=<?php echo $row['post_id'];?>"><img src="../images/<?php echo $row['post_img'];?>" alt="blank"/></a>
+                                  <a class="post-img" href="single.php?id=<?php echo $row['post_id'];?>"><?php echo $imgHTML;?></a>
                               </div>
                               <div class="col-md-8">
                                   <div class="inner-content clearfix">
@@ -57,11 +65,11 @@ include 'header.php';
                                           </span>
                                           <span>
                                               <i class="fa fa-user" aria-hidden="true"></i>
-                                              <a href='author.php?aid=<?php echo $row['author']; ?>'><?php echo $row["username"];?></a>
+                                              <a href='author.php?author=<?php echo $row['author']; ?>'><?php echo $row["author"];?></a>
                                           </span>
                                           <span>
                                               <i class="fa fa-calendar" aria-hidden="true"></i>
-                                              <?php echo $row["post_date"];?>
+                                              <?php echo $post_date;?>
                                           </span>
                                       </div>
                                       <p class="description">

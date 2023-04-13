@@ -30,11 +30,8 @@ switch ($pagename) {
         break;
 
     case 'author.php':
-        if(isset($_GET['aid'])){
-            $sql="SELECT * FROM user WHERE user_id ={$_GET['aid']}";
-            $result=mysqli_query($conn,$sql) or die("Query Failed :");
-            $row=mysqli_fetch_assoc($result);
-            $page_title="News by ".$row['first_name'] . $row['last_name'];
+        if(isset($_GET['author'])){
+            $page_title="News by ".$_GET['author'];
         } else {
             $page_title="No Post Found";
         }

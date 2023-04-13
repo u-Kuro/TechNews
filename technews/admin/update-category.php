@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 
 if(isset($_POST["update"])){
@@ -22,7 +22,7 @@ if(isset($_POST["update"])){
     }else{
       $sql2="UPDATE category SET category_name='{$category_name}' WHERE category_id= {$category_id}";
           if(mysqli_query($conn,$sql2)){
-            header("Location:{$hostname}/admin/category.php");
+            header("Location:category.php");
           }
        }
   }

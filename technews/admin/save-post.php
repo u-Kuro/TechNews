@@ -3,9 +3,9 @@ session_start();
 include "../config.php";
 include "header.php";
 if(!isset($_SESSION["username"])){
-  header("Location: {$hostname}/login.php");
+  header("Location: ../login.php");
 } else if($_SESSION["user_role"]==0) {
-  header("Location: {$hostname}/user/home.php");
+  header("Location: ../user/home.php");
 }
 //image upload code
 if(isset($_FILES['fileToUpload'])){
@@ -51,7 +51,7 @@ $title=mysqli_real_escape_string($conn,$_POST['post_title']);
 $description=mysqli_real_escape_string($conn,$_POST['postdesc']);
 $category=mysqli_real_escape_string($conn,$_POST['category']);
 $date=date("d M, Y");
-$author= $_SESSION["user_id"];
+$author=mysqli_real_escape_string($conn,$_POST['post_author']);
 
 
 $sql= "INSERT INTO post (title,description,category,post_date,author,post_img)
@@ -61,7 +61,7 @@ VALUES('{$title}','{$description}',{$category},'{$date}',{$author},'{$image_name
 $sql.="UPDATE category SET post=post+1 WHERE category_id= {$category}";
 
  if(mysqli_multi_query($conn,$sql)){
- header("Location: {$hostname}/admin/post.php");
+ header("Location: post.php");
  }else{
   echo "<div class='alert alert-danger'>Query Failed</div>";
 }
