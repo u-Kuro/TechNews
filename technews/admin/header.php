@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="../css/font-awesome.css">
         <!-- Custom stlylesheet -->
         <link rel="stylesheet" href="../css/style.css">
+        <link rel="shortcut icon" href="../images/icon.png" type="image/x-icon">
     </head>
     <body>
         <!-- HEADER -->

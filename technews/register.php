@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="./css/bootstrap.min.css" />
         <link rel="stylesheet" href="./css/font-awesome.css">
         <link rel="stylesheet" href="./css/style.css">
+        <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
     </head>
     <body>
         <div id="wrapper-admin" class="body-content">
