@@ -17,14 +17,14 @@ if(!isset($_SESSION["username"])){
     <div class="col-md-offset-3 col-md-6">
      <?php
      $post_id=$_GET['id']; //get id which we want to update
-     $sql="SELECT post.post_id,post.title,post.author,post.description,category.category_name,post.post_img,post.category FROM post
+     $sql="SELECT post.post_id,post.title,post.author,post.description,category.category_name,post.post_date,post.post_img,post.category,post.content,post.post_url FROM post
      LEFT JOIN category ON post.category=category.category_id
      WHERE post_id={$post_id}";
 
         $result=mysqli_query($conn,$sql) or die("Query failed ");
         if(mysqli_num_rows($result) > 0 ){
         while($row = mysqli_fetch_assoc($result)) {
-
+            $html_date = date('Y-m-d\TH:i', strtotime($row['post_date']));
      ?>
         <!-- Form for show edit-->
         <form action="save-update-post.php" method="POST" enctype="multipart/form-data" autocomplete="off">
@@ -44,6 +44,10 @@ if(!isset($_SESSION["username"])){
                 <textarea name="postdesc" class="form-control"  required rows="5">
                 <?php echo $row['description']?>
                 </textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputDate">Date</label>
+                <input type="datetime-local" name="datetime"  class="form-control" id="exampleInputDate" value="<?php echo $html_date?>">
             </div>
             <div class="form-group">
                 <label for="exampleInputCategory">Category</label>
@@ -68,10 +72,18 @@ if(!isset($_SESSION["username"])){
               <input type="hidden" name="old_category" value="<?php echo $row['category']; ?>">
             </div>
             <div class="form-group">
-                <label for="">Post image</label>
-                <input type="file" name="new-image">  <!--if user upload new image then it will be used-->
-                <img  src="upload/<?php echo $row['post_img'];?>" height="150px">   <!--Simple display image code-->
-                <input type="hidden" name="old-image" value="<?php echo $row['post_img'];?>">  <!--set old image if user can't upload image-->
+                <label for="imageUrl">Image Url</label>
+                <input type="text" name="imageUrl"  class="form-control" value="<?php echo htmlspecialchars($row['post_img'])?>">
+            </div>
+            <div class="form-group">
+                <label for="postUrl">Post Url</label>
+                <input type="text" name="imageUrl"  class="form-control" value="<?php echo $row['post_url']?>">
+            </div>
+            <div class="form-group">
+                <label for="postcontent"> Content</label>
+                <textarea name="postcontent" class="form-control"  required rows="5">
+                <?php echo $row['content']?>
+                </textarea>
             </div>
             <input type="submit" name="submit" class="btn btn-primary" value="Update" />
         </form>
@@ -85,4 +97,4 @@ if(!isset($_SESSION["username"])){
     </div>
   </div>
 </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

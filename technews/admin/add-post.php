@@ -22,28 +22,43 @@ if(!isset($_SESSION["username"])){
                           <input type="text" name="post_title" class="form-control" autocomplete="off" required>
                       </div>
                       <div class="form-group">
+                          <label for="author">Author</label>
+                          <input type="text" name="author" class="form-control" autocomplete="off">
+                      </div>
+                      <div class="form-group">
                           <label for="exampleInputPassword1"> Description</label>
                           <textarea name="postdesc" class="form-control" rows="5"  required></textarea>
                       </div>
                       <div class="form-group">
-                          <label for="exampleInputPassword1">Category</label>
-                          <select name="category" class="form-control">
-                              <option disabled selected> Select Category</option>
-                              <?php
-                              $sql="SELECT * FROM category";
-                              $result=mysqli_query($conn,$sql) or die("Query Failed");
-                              if(mysqli_num_rows($result)> 0){
-                                  while($row=mysqli_fetch_assoc($result)){
-                                echo "<option value='{$row['category_id']}'>{$row['category_name']}</option>";
-
-                                  }
-                              }
-                              ?>
-                          </select>
+                          <label for="exampleInputDate">Date</label>
+                          <input type="datetime-local" name="datetime"  class="form-control" id="exampleInputDate" required>
                       </div>
                       <div class="form-group">
-                          <label for="exampleInputPassword1">Post image</label>
-                          <input type="file" name="fileToUpload" required>
+                          <label for="exampleInputPassword1">Category</label>
+                          <select name="category" class="form-control" required>
+                            <option disabled selected value=""> Select Category</option>
+                            <?php
+                                $sql="SELECT * FROM category";
+                                $result=mysqli_query($conn,$sql) or die("Query Failed");
+                                if(mysqli_num_rows($result)> 0){
+                                    while($row=mysqli_fetch_assoc($result)){
+                                        echo "<option value='{$row['category_id']}' required>{$row['category_name']}</option>";
+                                    }
+                                }
+                            ?>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                          <label for="imageUrl">Image Url</label>
+                          <input type="text" name="imageUrl" class="form-control" autocomplete="off">
+                      </div>
+                      <div class="form-group">
+                          <label for="postUrl">Post Url</label>
+                          <input type="text" name="postUrl"  class="form-control">
+                      </div>
+                      <div class="form-group">
+                          <label for="postcontent"> Content</label>
+                          <textarea name="postcontent" class="form-control" required rows="5"></textarea>
                       </div>
                       <input type="submit" name="submit" class="btn btn-primary" value="Save" required />
                   </form>
@@ -52,4 +67,4 @@ if(!isset($_SESSION["username"])){
           </div>
       </div>
   </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

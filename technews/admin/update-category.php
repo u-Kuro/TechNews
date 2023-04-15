@@ -13,19 +13,13 @@ if(isset($_POST["update"])){
     $category_id=mysqli_real_escape_string($conn,$_POST["cat_id"]);  //get id for  particular updataion
     $category_name=mysqli_real_escape_string($conn,$_POST["cat_name"]);
     $query=mysqli_real_escape_string($conn,$_POST["query"]);
+    print_r($query);
     // Check if Category Already Exists
-    $sql1="SELECT category_name from category WHERE category_name='{$category_name}'";
-    $result1=mysqli_query($conn,$sql1) or die("Query failed");
-     if(mysqli_num_rows($result1) > 0){
-      echo "<p style='color:red;text-align:center;margin:10px 0;'>Category Name Already Exists</p>";
-
-    }else{
-      $sql2="UPDATE category SET category_name='{$category_name}', query='{$query}' WHERE category_id= {$category_id}";
-          if(mysqli_query($conn,$sql2)){
-            header("Location:category.php");
-          }
-       }
-  }
+    $sql2="UPDATE category SET category_name='{$category_name}', query='{$query}' WHERE category_id= {$category_id}";
+        if(mysqli_query($conn,$sql2)){
+          header("Location:category.php");
+        }
+}
  ?>
   <div id="admin-content">
       <div class="container">
@@ -41,7 +35,6 @@ if(isset($_POST["update"])){
                 $result=mysqli_query($conn,$sql) or die("Query failed ");
                 if(mysqli_num_rows($result) > 0 ){
                   while($row=mysqli_fetch_assoc($result)){ ?>
-
                   <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method ="POST">
                       <div class="form-group">
                           <input type="hidden" name="cat_id"  class="form-control" value="<?php echo $row["category_id"]; ?>" placeholder="">
@@ -52,7 +45,7 @@ if(isset($_POST["update"])){
                       </div>
                       <div class="form-group">
                           <label>Query</label>
-                          <input type="text" name="query" class="form-control" value="<?php echo $row["query"]; ?>"  placeholder="" required>
+                          <input type="text" name="query" class="form-control" value="<?php echo htmlspecialchars($row["query"]); ?>"  placeholder="" required>
                       </div>
                       <input type="submit" name="update" class="btn btn-primary" value="Update" required />
                   </form>
@@ -63,4 +56,4 @@ if(isset($_POST["update"])){
               </div>
             </div>
           </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

@@ -82,4 +82,4 @@ $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$use
           </div>
       </div>
   </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

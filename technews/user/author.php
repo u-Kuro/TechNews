@@ -29,10 +29,10 @@ include 'header.php';
                         $page=1;
                     }
                     $offset=($page-1) * $limit;
-
+              print_r($author);
               $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
               LEFT JOIN category ON post.category=category.category_id
-              WHERE post.author={$author}
+              WHERE post.author='{$author}'
               ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
 
               $result=mysqli_query($conn,$sql) or die("Query failed ");
@@ -87,8 +87,8 @@ include 'header.php';
                 <?php
                   //show pagenation codes
                   //author ki total post calculate krne k liye
-                  if(mysqli_num_rows($result1) > 0 ){
-                    $total_records=mysqli_num_rows($result1);
+                  if(mysqli_num_rows($result) > 0 ){
+                    $total_records=mysqli_num_rows($result);
 
                     //$limit=3;
                     $total_pages= ceil ($total_records / $limit);  //return upper value

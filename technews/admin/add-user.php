@@ -76,4 +76,4 @@ $result=mysqli_query($conn,$sql) or die("Query failed");
            </div>
        </div>
    </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

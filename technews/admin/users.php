@@ -21,8 +21,8 @@ include "header.php";
               }
               $offset=($page-1) * $limit;  //here is offset logic
 
-
-              $sql="SELECT * FROM user ORDER BY user_id DESC LIMIT {$offset}, {$limit}"; //view latest user information
+              $user_id = $_SESSION["user_id"];
+              $sql="SELECT * FROM user ORDER BY user_id DESC LIMIT {$offset}, {$limit};"; //view latest user information
               $result=mysqli_query($conn,$sql) or die("Query failed ");
               if(mysqli_num_rows($result) > 0 ){
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2023 at 03:23 AM
+-- Generation Time: Apr 15, 2023 at 05:32 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -254,8 +254,8 @@ INSERT INTO `post` (`post_id`, `title`, `description`, `category`, `post_date`, 
 (2261, 'How to report identity theft', 'If your identity has been stolen, call the companies involved in fraud, contact a credit bureau, and report it to the FTC.', 33, '2023-03-27 18:46:56', 'insider@insider.com (Liz Knueven)', 'https://i.insider.com/642076261012e900188ef073?width=1200&format=jpeg', 'Our experts choose the best products and services to help make smart decisions with your money (here\'s how). In some cases, we receive a commission from our partners; however, our opinions are our ow… [+5981 chars]', 'https://www.businessinsider.com/personal-finance/how-to-report-identity-theft'),
 (2262, 'Facebook and Twitter scrambled our brains and poisoned our politics. AI poses an even bigger threat.', 'AI tools like ChatGPT could wind up hypercharging everything from financial scams to government surveillance, according to tech experts.', 33, '2023-03-14 10:02:00', 'hchowdhury@insider.com (Hasan Chowdhury)', 'https://i.insider.com/640f2a59340fa00018fdb1fa?width=1200&format=jpeg', 'When Sam Altman was sunsetting his first startup in early 2012, there was little indication that his path ahead would parallel that of Silicon Valley\'s then-wunderkind Mark Zuckerberg.\r\nWhile Altman … [+11649 chars]', 'https://www.businessinsider.com/ai-technology-chatgpt-openai-bing-threat-society-economy-social-medi'),
 (2263, 'Someone hacked my phone and stole my credit card. I set out to find them.', 'Verizon, Chase, and the police were all useless when my identity got hacked. Then Psycho Bunny came to the rescue.', 33, '2023-04-02 12:00:16', 'Avery Hartmans', 'https://i.insider.com/642203358c966b0019498ebd?width=1200&format=jpeg', 'After gaining control of my phone, a hacker ripped me off for $10,000. The scam turned out to be brilliant — and terrifying.Frank Stockton for Insider\r\nVerizon, Chase, the police — they were all usel… [+20353 chars]', 'https://www.businessinsider.com/credit-card-phone-theft-sim-swap-identity-theft-investigation-2023-4'),
-(2264, 'Why Managers Should Think More Like Hackers', 'Hackers are systems thinkers; they have an attitude that allows them to identify opportunities to make outsized impacts creatively, quickly, and resourcefully. Managers could benefit from thinking more like hackers. Hacking helps us take a step back from the …', 33, '2023-04-06 15:00:00', 'Paulo Savaget', 'https://hbr.org/resources/images/article_assets/2023/04/Apr23_06_MrNelsonDesign.jpg', 'It can help you work around obstacles, find opportunities across silos, and more.\r\n\"&gt;\r\nOnce while procrastinating at work, I stumbled upon the story of a computer hacker and cybercriminal, Albert … [+12007 chars]', 'https://hbr.org/2023/04/why-managers-should-think-more-like-hackers'),
-(2265, 'Apparent leaked U.S. docs suggest pro-Russian hackers got at Canada\'s gas network. Is cybersecurity ', '<ol><li>Apparent leaked U.S. docs suggest pro-Russian hackers got at Canada\'s gas network. Is cybersecurity an issue?  CBC.ca\r\n</li><li>Pro-Russian hackers claim to have targeted Canada\'s gas pipeline infrastructure: leaked documents  The Globe and Mail\r\n</li…', 33, '2023-04-11 01:26:34', '', '', 'We use cookies and data to<ul><li>Deliver and maintain Google services</li><li>Track outages and protect against spam, fraud, and abuse</li><li>Measure audience engagement and site statistics to unde… [+1131 chars]', 'https://consent.google.com/ml?continue=https://news.google.com/rss/articles/CBMiVGh0dHBzOi8vd3d3LmNi');
+(2264, 'Why Managers Should Think More Like Hackers', '                Hackers are systems thinkers; they have an attitude that allows them to identify opportunities to make outsized impacts creatively, quickly, and resourcefully. Managers could benefit from thinking more like hackers. Hacking helps us take a step back from the …                ', 33, '2023-04-06 15:00:00', 'Paulo Savaget', 'https://hbr.org/resources/images/article_assets/2023/04/Apr23_06_MrNelsonDesign.jpg', 'It can help you work around obstacles, find opportunities across silos, and more.\r\n\"&gt;\r\nOnce while procrastinating at work, I stumbled upon the story of a computer hacker and cybercriminal, Albert … [+12007 chars]', 'https://hbr.org/2023/04/why-managers-should-think-more-like-hackers'),
+(2265, 'Apparent leaked U.S. docs suggest pro-Russian hackers got at Canada\'s gas network. Is cybersecurity', '                                                                                                                                                                                                                                Apparent leaked U.S. docs suggest pro-Russian hackers got at Canada\'s gas network. Is cybersecurity an issue?  CBC.ca Pro-Russian hackers claim to have targeted Canada\'s gas pipeline infrastructure: leaked documents  The Globe and Mail…                                                                                                                                                                                                                                ', 33, '2023-11-04 10:27:00', 'as', 'https://consent.google.com/ml?continue=https://news.google.com/rss/articles/CBMiVGh0dHBzOi8vd3d3LmNi', '                                We use cookies and data to<ul><li>Deliver and maintain Google services</li><li>Track outages and protect against spam, fraud, and abuse</li><li>Measure audience engagement and site statistics to unde… [+1131 chars]                                ', '');
 
 -- --------------------------------------------------------
 
@@ -337,13 +337,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `post`
 --
 ALTER TABLE `post`
-  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2266;
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2267;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -355,7 +355,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
