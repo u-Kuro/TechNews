@@ -11,7 +11,7 @@
       // Calculate the time difference between the last update time and the current time
       $time_diff = time() - strtotime($last_update);
       $requestLimit = 100/5; // Current newsapi Limit is 100 divided by 5 different request
-      $intervalTime = 86400 / $requestLimit; // interval request for 24 hrs (86400 s)
+      $intervalTime = 86400 / $requestLimit; // interval request for 24 hrs (in seconds)
       if ($time_diff >= $intervalTime) {
           // Update the last update time for the API in the database
           $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api_name}'";
