@@ -29,7 +29,6 @@ include 'header.php';
                         $page=1;
                     }
                     $offset=($page-1) * $limit;
-              print_r($author);
               $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
               LEFT JOIN category ON post.category=category.category_id
               WHERE post.author='{$author}'

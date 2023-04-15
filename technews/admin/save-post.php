@@ -12,7 +12,7 @@ $title=mysqli_real_escape_string($conn,$_POST['post_title']);
 $author=mysqli_real_escape_string($conn,$_POST['author']);
 $description=mysqli_real_escape_string($conn,$_POST['postdesc']);
 $content=mysqli_real_escape_string($conn,$_POST['postcontent']);
-$category=mysqli_real_escape_string($conn,$_POST['category']);
+$categoryid=mysqli_real_escape_string($conn,$_POST['categoryid']);
 $date=$_POST['datetime'];
 $imageUrl=mysqli_real_escape_string($conn,$_POST['imageUrl']);
 $postUrl=mysqli_real_escape_string($conn,$_POST['postUrl']);
@@ -22,7 +22,7 @@ VALUES('{$title}','{$author}','{$description}','{$category}','{$postUrl}','{$ima
 echo $sql;
 //
 //concatinate commmand means category walec table me category counting hoti rahegi jab jab jis category ki post dalegi by default 0 post thi
-$sql.="UPDATE category SET post=post+1 WHERE category_id= {$category}";
+$sql.="UPDATE category SET post=post+1 WHERE category_id= {$categoryid}";
 
  if(mysqli_multi_query($conn,$sql)){
  header("Location: post.php");
