@@ -30,7 +30,7 @@ if (!file_exists($cacheFile) || time() - filemtime($cacheFile) > $intervalTime) 
             $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api_name}'";
             mysqli_query($conn, $sql);
             // Retrieve new data from the API
-            
+            require_once 'api/newsapi.php';
         }
     } else {
         // Insert a new record for the API if it doesn't exist in the table
