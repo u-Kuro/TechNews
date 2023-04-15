@@ -37,6 +37,8 @@ if(!isset($_SESSION["username"])){
                     <thead>
                         <th>S.No.</th>
                         <th>Category Name</th>
+                        <th>No. of Posts</th>
+                        <th>Query</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </thead>
@@ -47,6 +49,8 @@ if(!isset($_SESSION["username"])){
                         <tr>
                             <td class='id'><?php echo $row["category_id"]; ?></td>
                             <td><?php echo $row["category_name"]; ?></td>
+                            <td><?php echo $row["post"]; ?></td>
+                            <td><?php echo $row["query"]; ?></td>
                             <td class='edit'><a href='update-category.php?id=<?php echo $row["category_id"];?>'> <i class='fa fa-edit'></i></a></td>
                             <td class='delete'><a href='delete-category.php?id=<?php echo $row["category_id"];?>'> <i class='fa fa-trash-o'></i></a></td>
                         </tr>

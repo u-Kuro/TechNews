@@ -12,7 +12,7 @@ if(isset($_POST["update"])){
   //step 2
     $category_id=mysqli_real_escape_string($conn,$_POST["cat_id"]);  //get id for  particular updataion
     $category_name=mysqli_real_escape_string($conn,$_POST["cat_name"]);
-
+    $query=mysqli_real_escape_string($conn,$_POST["query"]);
     // Check if Category Already Exists
     $sql1="SELECT category_name from category WHERE category_name='{$category_name}'";
     $result1=mysqli_query($conn,$sql1) or die("Query failed");
@@ -20,7 +20,7 @@ if(isset($_POST["update"])){
       echo "<p style='color:red;text-align:center;margin:10px 0;'>Category Name Already Exists</p>";
 
     }else{
-      $sql2="UPDATE category SET category_name='{$category_name}' WHERE category_id= {$category_id}";
+      $sql2="UPDATE category SET category_name='{$category_name}', query='{$query}' WHERE category_id= {$category_id}";
           if(mysqli_query($conn,$sql2)){
             header("Location:category.php");
           }
@@ -42,13 +42,17 @@ if(isset($_POST["update"])){
                 if(mysqli_num_rows($result) > 0 ){
                   while($row=mysqli_fetch_assoc($result)){ ?>
 
-                  <form action="<?php $_SERVER["PHP_SELF"]; ?>" method ="POST">
+                  <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method ="POST">
                       <div class="form-group">
                           <input type="hidden" name="cat_id"  class="form-control" value="<?php echo $row["category_id"]; ?>" placeholder="">
                       </div>
                       <div class="form-group">
                           <label>Category Name</label>
                           <input type="text" name="cat_name" class="form-control" value="<?php echo $row["category_name"]; ?>"  placeholder="" required>
+                      </div>
+                      <div class="form-group">
+                          <label>Query</label>
+                          <input type="text" name="query" class="form-control" value="<?php echo $row["query"]; ?>"  placeholder="" required>
                       </div>
                       <input type="submit" name="update" class="btn btn-primary" value="Update" required />
                   </form>

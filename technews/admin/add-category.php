@@ -18,7 +18,7 @@ if(!isset($_SESSION["username"])){
                 <?php
                 if(isset($_POST["save"])){
                     $category=mysqli_real_escape_string($conn,$_POST["cat"]);  //for hacking protection remove special characters
-
+                    $query=mysqli_real_escape_string($conn,$_POST["query"]);
                     // Check if Category Already Exists
                     $sql="SELECT category_name from category WHERE category_name='{$category}'";
                     $result=mysqli_query($conn,$sql) or die("Query failed");
@@ -26,8 +26,8 @@ if(!isset($_SESSION["username"])){
                       echo "<p style='color:red;text-align:center;margin:10px 0;'>Category Name Already Exists</p>";
 
                     }else{
-                      $sql1="INSERT INTO category(category_name)
-                             VALUES('{$category}')";
+                      $sql1="INSERT INTO category(category_name,post,query)
+                             VALUES('{$category}','{0}','{$query}')";
 
                           if(mysqli_query($conn,$sql1)){
                             header("Location: category.php");
@@ -40,6 +40,10 @@ if(!isset($_SESSION["username"])){
                       <div class="form-group">
                           <label>Category Name</label>
                           <input type="text" name="cat" class="form-control" placeholder="Category Name" required>
+                      </div>
+                      <div class="form-group">
+                          <label>Query</label>
+                          <input type="text" name="query" class="form-control" placeholder="query" required>
                       </div>
                       <input type="submit" name="save" class="btn btn-primary" value="Save" required />
                   </form>
