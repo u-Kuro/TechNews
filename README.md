@@ -27,7 +27,7 @@ The website is integrated with newsapi.org and uses an automated API retrieval s
 
 ## SMS Notifications
 
-Users will be notified via SMS when new articles are added to the website. The website is integrated an SMS API (ClickSend) and to ensure that notifications are sent to users located in different parts of the world. The SMS notifications are sent within a few minutes of a new article being added to the website.
+Users will be notified via SMS when new articles are added to the website. The website is integrated an SMS API (ClickSend) and to ensure that notifications are sent to users located in different parts of the world. The SMS notifications are sent within a few minutes of a new article being added to the website. This is currently very limited since clicksend api only allows 4 SMS send in a single account.
 
 ## Deployed Website URL
 
