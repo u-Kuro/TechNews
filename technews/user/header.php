@@ -75,7 +75,7 @@ switch ($pagename) {
         <div class="row">
             <!-- LOGO -->
             <div class="col-md-2">
-                <a href="home.php"><img class="logo" src="../images/tech-news.png"></a>
+                <a href="home.php"><img class="logo" src="../images/tech-news-withoutbg.png"></a>
             </div>
             <!-- /LOGO -->
               <!-- LOGO-Out -->
@@ -98,7 +98,7 @@ switch ($pagename) {
              }
 
              //print Dynamic menus catagory pages
-              //wo category show ho jinke andar koi post hai
+              //show the category that has a post inside it
               $sql2="SELECT * FROM category WHERE post > 0";
               $result2=mysqli_query($conn,$sql2) or die("Query failed :Category");
               if(mysqli_num_rows($result2) > 0 ){

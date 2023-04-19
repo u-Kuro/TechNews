@@ -33,6 +33,7 @@ include "header.php";
                           <th>S.No.</th>
                           <th>Full Name</th>
                           <th>User Name</th>
+                          <th>Phone Number</th>
                           <th>Role</th>
                           <th>Edit</th>
                           <th>Delete</th>
@@ -45,6 +46,7 @@ include "header.php";
                               <td class='id'> <?php echo$row['user_id'];?></td>
                               <td> <?php echo $row["first_name"]." ". $row["last_name"];?></td>
                               <td> <?php echo $row["username"];?> </td>
+                              <td> <?php echo $row["phone_number"];?> </td>
                               <td> <?php
                                if($row["role"]==1){
                                  echo "Admin";

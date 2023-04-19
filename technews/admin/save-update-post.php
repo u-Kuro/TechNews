@@ -21,8 +21,7 @@ $postUrl=mysqli_real_escape_string($conn,$_POST['postUrl']);
 $sql="UPDATE post SET title='{$title}',author='{$author}',description='{$description}',category={$category},post_url='{$postUrl}',post_img ='{$imageUrl}', post_date=STR_TO_DATE('{$date}', '%Y-%m-%dT%H:%i'), content='{$content}' WHERE post_id = {$post_id};";
 // echo $sql; //testing
 
-//agr user category chage krta hai toh ye if condition chal jayegi jo check kregi old_category not equal to new category toh nhi hai
-//old category me 1 minus ho jayega aur new category me 1 add ho jayega
+//1 will be minus in old category and 1 will be added in new category
 if($old_category != $category){
   $sql.="UPDATE category SET post=post-1 WHERE category_id={$old_category};";
   $sql.="UPDATE category SET post=post+1 WHERE category_id={$category};";

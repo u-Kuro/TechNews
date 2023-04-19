@@ -14,7 +14,7 @@ $sql="DELETE FROM user WHERE user_id = {$user_id}";
 if(mysqli_query($conn,$sql)){
    header("Location:users.php");
 }else{
-  echo "<p style='color:red;text-align:center;margin:10px 0;'>Can\'t Deleted</p>";
+  echo "<p style='color:red;text-align:center;margin:10px 0;'>Can\'t Delete</p>";
 }
 mysqli_close($conn);
  ?>

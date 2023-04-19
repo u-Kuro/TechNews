@@ -21,7 +21,7 @@ $sql= "INSERT INTO post (title,author,description,category,post_url,post_img,pos
 VALUES('{$title}','{$author}','{$description}','{$category}','{$postUrl}','{$imageUrl}',STR_TO_DATE('{$date}', '%Y-%m-%dT%H:%i'),content='{$content}');";
 echo $sql;
 //
-//concatinate commmand means category walec table me category counting hoti rahegi jab jab jis category ki post dalegi by default 0 post thi
+//category counting will continue in the category value table when the category of which the post will be inserted by default was 0 posts.
 $sql.="UPDATE category SET post=post+1 WHERE category_id= {$categoryid}";
 
  if(mysqli_multi_query($conn,$sql)){

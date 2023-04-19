@@ -7,14 +7,24 @@ $dbname = "technews";
 
 // Connect to the database
 $conn = mysqli_connect($hostname, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
-
+// require_once 'api/newsapi/newsapi.php';
 // Set the cache file path, request limit, and interval time
-$cacheFile = __DIR__ . '\api\newsAPIcache.json';
+$cacheFile = __DIR__ . '\api\newsapi\newsAPIcache.json';
 $requestLimit = 100/5; // Current newsapi limit is 100 divided by 5 different request
 $intervalTime = 86400 / $requestLimit; // Interval request for 24 hours (in seconds)
 
-// Check if cache exists and has not expired
-if (!file_exists($cacheFile) || time() - filemtime($cacheFile) > $intervalTime) {
+$file_not_existing = !file_exists($cacheFile);
+// Create cache file if it does not exist
+if ($file_not_existing) {
+    $fp = fopen($cacheFile, 'w');
+    fclose($fp);
+    chmod($cacheFile, 0666); // Set file permissions to allow read/write access
+    file_put_contents($cacheFile, true);
+}
+// Run if cache does not exists and has not expired
+if ($file_not_existing || time() - @filemtime($cacheFile) > $intervalTime) {
+    // Add cache file and set the file modification time to now   
+    touch($cacheFile);
     // Cache does not exist or has expired, fetch new data
     $api_name = 'newsapi';
     $sql = "SELECT last_update FROM api_interval WHERE api_name = '{$api_name}'";
@@ -30,22 +40,13 @@ if (!file_exists($cacheFile) || time() - filemtime($cacheFile) > $intervalTime) 
             $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api_name}'";
             mysqli_query($conn, $sql);
             // Retrieve new data from the API
-            require_once 'api/newsapi.php';
+            require_once 'api/newsapi/newsapi.php';
         }
     } else {
         // Insert a new record for the API if it doesn't exist in the table
         $sql = "INSERT INTO api_interval (api_name, last_update) VALUES ('$api_name', NOW())";
         mysqli_query($conn, $sql);
-        require_once 'api/newsapi.php';
+        require_once 'api/newsapi/newsapi.php';
     }
-
-    // Add cache file and set the file modification time to now
-    if (!file_exists($cacheFile)) {
-        // Create cache file
-        $fp = fopen($cacheFile, 'w');
-        fclose($fp);
-    }
-    file_put_contents($cacheFile, true);
-    touch($cacheFile);
 }
 ?>

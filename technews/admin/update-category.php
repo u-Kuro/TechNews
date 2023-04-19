@@ -10,7 +10,7 @@ if(!isset($_SESSION["username"])){
 
 if(isset($_POST["update"])){
   //step 2
-    $category_id=mysqli_real_escape_string($conn,$_POST["cat_id"]);  //get id for  particular updataion
+    $category_id=mysqli_real_escape_string($conn,$_POST["cat_id"]);  //get id for particular update
     $category_name=mysqli_real_escape_string($conn,$_POST["cat_name"]);
     $query=mysqli_real_escape_string($conn,$_POST["query"]);
     print_r($query);

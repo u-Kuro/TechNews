@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-offset-4 col-md-4">
-                        <img class="logo" src="images/tech-news.png">
+                        <img class="logo" src="images/tech-news-withoutbg.png">
                         <h3 class="heading">Sign-In</h3>
                         <!-- Form Start -->
                         <form  action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">
@@ -33,6 +33,10 @@
                             <div class="form-group">
                                 <label>Last Name</label>
                                 <input type="text" name="lname" class="form-control" placeholder="" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number (International Format)</label>
+                                <input type="tel" name="phone" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" class="form-control" placeholder="+123456789012" required>
                             </div>
                             <div class="form-group">
                                 <label>Username</label>
@@ -51,11 +55,15 @@
                         <?php
                         if(isset($_POST["register"])){
                             //if field are empty
-                            if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"])) {
+                            $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
+                            if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["phone"])) {
                                 echo "<div class='alert alert-danger'>All fieds are required and Entered </div>";
+                            } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
+                                echo "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only) </div>";
                             } else {
                                 $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
                                 $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
+                                $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
                                 $username=mysqli_real_escape_string($conn,$_POST["username"]);
                                 $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
                                 $sql="SELECT username from user WHERE username='{$username}'";
@@ -63,8 +71,8 @@
                                 if(mysqli_num_rows($result) > 0){
                                     echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
                                 } else {
-                                    $sql1="INSERT INTO user(first_name,last_name,username,password,role)
-                                        VALUES ('{$fname}','{$lname}','{$username}','{$password}','{0}')";
+                                    $sql1="INSERT INTO user(first_name,last_name,username,password,phone_number,role)
+                                        VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}','{0}')";
                                     if(mysqli_query($conn,$sql1)){
                                         header("Location: login.php?username=$username");
                                     }

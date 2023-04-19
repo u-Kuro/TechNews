@@ -22,7 +22,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-offset-4 col-md-4">
-                        <img class="logo" src="images/tech-news.png">
+                        <img class="logo" src="images/tech-news-withoutbg.png">
                         <h3 class="heading">Sign-Up</h3>
                         <!-- Form Start -->
                         <form  action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">

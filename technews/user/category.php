@@ -32,7 +32,7 @@ include 'header.php';
                       }
                       $offset=($page-1) * $limit;
 
-                //SQL command usi category se related post show krega jiski oper id a rahi hai
+                //Aggregate SQL command will show related posts from the same category whose operation is coming
                 $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.author,post.post_img,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
                 WHERE post.category={$cat_id}
@@ -41,12 +41,12 @@ include 'header.php';
                 $result=mysqli_query($conn,$sql) or die("Query failed ");
                 if(mysqli_num_rows($result) > 0 ){
                   while($row = mysqli_fetch_assoc($result)) {
-                        $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+                        $imgHTML = '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
                         $image_link = $row['post_img'];
-                        if(!empty($image_link)){
+                        if (!empty($image_link)) {
                             $headers = @get_headers($image_link);
                             if($headers && strpos($headers[0], '200')) {
-                                $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                                $imgHTML = '<img src="'.$image_link.'" alt="blank" loading="lazy" onerror="this.src=\'../images/default-image.png\'"/>';
                             }
                         }
                         $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');

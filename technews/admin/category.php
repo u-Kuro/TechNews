@@ -26,7 +26,7 @@ if(!isset($_SESSION["username"])){
                     $page=1;
                 }
 
-                $offset=($page-1) * $limit;  //offset means starting kha se krni hai limit means kitne record utane hain
+                $offset=($page-1) * $limit;  //Offset means starting point to be done; Limit means how many records are there
 
                 $sql="SELECT * FROM  category  ORDER BY category_id DESC LIMIT {$offset}, {$limit}"; //view latest user information
                 $result=mysqli_query($conn,$sql) or die("Query failed ");

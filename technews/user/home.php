@@ -30,12 +30,12 @@ include 'header.php';
           $result=mysqli_query($conn,$sql) or die("Query failed :fetch posts");
           if(mysqli_num_rows($result) > 0 ){
             while($row = mysqli_fetch_assoc($result)) {
-                $imgHTML = '<img src="../images/default-image.png" alt="blank"/>';
+                $imgHTML = '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
                 $image_link = $row['post_img'];
-                if(!empty($image_link)){
+                if (!empty($image_link)) {
                     $headers = @get_headers($image_link);
                     if($headers && strpos($headers[0], '200')) {
-                        $imgHTML = '<img src="'.$image_link.'" alt="blank"/>';
+                        $imgHTML = '<img src="'.$image_link.'" alt="blank" loading="lazy" onerror="this.src=\'../images/default-image.png\'"/>';
                     }
                 }
                 $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
@@ -78,7 +78,7 @@ include 'header.php';
 
             <?php
               //show pagenation codes
-              $sql1="SELECT * FROM post";           //jo user hai usko apni hi post dikhegi
+              $sql1="SELECT * FROM post";           //The user who is there will see the post
               $result1=mysqli_query($conn,$sql1) or die("Query Failed");
               if(mysqli_num_rows($result1) >0 ){
                 $total_records=mysqli_num_rows($result1);

@@ -23,7 +23,7 @@
                 <div class="row">
                     <!-- LOGO -->
                     <div class="col-md-2">
-                        <a href="post.php"><img class="logo" src="../images/tech-news.png"></a>
+                        <a href="post.php"><img class="logo" src="../images/tech-news-withoutbg.png"></a>
                     </div>
                     <!-- /LOGO -->
                       <!-- LOGO-Out -->

@@ -27,7 +27,7 @@ if(!isset($_SESSION["username"])){
               }
               $offset=($page-1) * $limit;  //here is offset logic
 
-              //This is secure query for seleled coloumns
+              //This is secure query for selected coloumns
               if($_SESSION["user_role"]==1){  //means normal user hai toh redirect
                 $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
@@ -72,7 +72,7 @@ if(!isset($_SESSION["username"])){
                   <?php }
                 //show pagenation codes
                 if($_SESSION["user_role"]==1){
-                  $sql1="SELECT * FROM post";       //jo user hai usko apni hi post dikhegi
+                  $sql1="SELECT * FROM post";       //The user who is there will see the post
                 }
 
                 $result1=mysqli_query($conn,$sql1) or die("Query Failed");

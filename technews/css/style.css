@@ -39,19 +39,19 @@ h2.page-heading{
 }
 
 img.logo{
-    width: 100%;
+    width: 400px;
     height: auto;
     display: block;
 }
 
 #header-admin{          /* #1E90FF */
-    background-color: #1e90ff;
+    background-color: rgb(201, 201, 201);
     padding: 15px 0;
 }
 
 #header-admin .admin-logout{
     margin: 10px 0;
-    color: #fff;
+    color: black;
     font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
@@ -73,7 +73,7 @@ img.logo{
     margin: 0 5px 0 0;
 }
 #admin-menubar .admin-menu li a{
-    color: #1E90FF;
+    color: black;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -84,7 +84,7 @@ img.logo{
 
 #admin-menubar .admin-menu li a:hover{
     color: #fff;
-    background-color: #1E90FF;
+    background-color: black;
 }
 
 #admin-content{
@@ -99,7 +99,7 @@ img.logo{
 
 #admin-content .add-new{
     color: #fff;
-    background-color: #1E90FF;
+    background-color: green;
     font-size: 15px;
     font-weight: 600;
     text-align: center;
@@ -183,7 +183,7 @@ form{
 
 /* Header Styling */
 #header{
-    background: #1e90ff;
+    background: gray;
     text-align: center;
     padding: 15px;
 }
@@ -219,8 +219,8 @@ form{
 
 #menu-bar .menu > li > a:hover,
 #menu-bar .menu > li > a.active{
-    color:#fff;
-    background:#1e90ff;
+    color:black;
+    background:white;
 }
 
 /* Main Content Styling */
@@ -254,11 +254,11 @@ form{
   transition: border .3s;
 }
 #main-content .post-content .post-img:hover{
-  border: 3px solid #1e90ff;
+  border: 3px solid #808080;
 }
-#main-content .post-content .inner-content{
-    /* border: 1px solid #000; */
-}
+/*#main-content .post-content .inner-content{
+  border: 1px solid #000;  
+} */
 
 #main-content .post-content h3{
     font-size: 21px;
@@ -268,11 +268,11 @@ form{
 
 }
 #main-content .post-content h3 a{
-    color: #1e90ff;
+    color: rgb(27, 27, 27);
     transition:all 0.3s;
 }
 #main-content .post-content h3 a:hover{
-    color:#333;
+    color:gray;
 }
 
 #main-content .post-content .post-information span{
@@ -284,7 +284,7 @@ form{
 }
 
 #main-content .post-content .post-information i{
-    color: #1e90ff;
+    color: #0f0d0d;
     margin-right: 1px;
 }
 
@@ -308,7 +308,7 @@ form{
 
 #main-content .post-content a.read-more{
     color: #fff;
-    background-color: #1E90FF;
+    background-color: #0f0d0d;
     font-size: 12px;
     text-transform: capitalize;
     padding: 3px 8px;
@@ -317,8 +317,8 @@ form{
 }
 
 #main-content .post-content a.read-more:hover{
-    color: #fff;
-    background-color: #333;
+    color: black;
+    background-color: #d1d0d0;
 }
 
 #main-content .single-post{
@@ -328,7 +328,7 @@ form{
 }
 
 #main-content .single-post h3{
-    color: #1e90ff;
+    color: black;
 }
 
 #main-content .single-post .post-information{
@@ -359,14 +359,14 @@ form{
 
 .pagination li a{
     border: none;
-    background: #1e90ff;
+    background: #2d2d2d;
     color: #fff;
 }
 
 .pagination li a:hover,
 .pagination > li > a:focus{
-    color:#fff;
-    background:#333;
+    color:black;
+    background:#d1d0d0;
 }
 
 .page_links {
@@ -419,7 +419,7 @@ i.fa{
     text-transform: uppercase;
     padding: 0 0 0 5px;
     margin: 0 0 21px;
-    border-left: 3px solid #1e90ff;
+    border-left: 3px solid gray;
 }
 
 #sidebar .search-box-container{
@@ -444,8 +444,8 @@ i.fa{
     font-weight: 600;
     text-transform: uppercase;
     padding: 6px 8px;
-    background-color: #1E90FF;
-    border-color: #1E90FF;
+    background-color: #0f0d0d;
+    border-color: #0f0d0d;
     outline: none;
 }
 
@@ -488,7 +488,7 @@ i.fa{
 }
 
 #sidebar .recent-post .post-img:hover{
-  border: 3px solid #1e90ff;
+  border: 3px solid gray;
 }
 
 #sidebar .recent-post .post-img img{
@@ -509,7 +509,7 @@ i.fa{
     margin: 0 0 5px;
 }
 #sidebar .recent-post h5 a{
-    color: #1E90FF;
+    color: black;
 }
 
 #sidebar .recent-post span{
@@ -523,7 +523,7 @@ i.fa{
     color: #666;
 }
 #sidebar .recent-post span i{
-    color: #1E90FF;
+    color: black;
 }
 
 #sidebar .recent-post a.read-more{
@@ -546,7 +546,7 @@ i.fa{
     color: #fff;
     padding:15px 0;
     text-align:center;
-    background-color:#1e90ff;
+    background-color:black;
 }
 
 #footer  a{

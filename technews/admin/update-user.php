@@ -1,4 +1,5 @@
 <?php 
+ob_start();
 session_start();
 include "../config.php";
 include "header.php";
@@ -7,25 +8,6 @@ if(!isset($_SESSION["username"])){
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
 }
-   
-if(isset($_POST["submit"])){
-
-$user_id=mysqli_real_escape_string($conn,$_POST["user_id"]);
-$fname=mysqli_real_escape_string($conn,$_POST["f_name"]);
-$lname=mysqli_real_escape_string($conn,$_POST["l_name"]);
-$user=mysqli_real_escape_string($conn,$_POST["username"]);
-//$password=mysqli_real_escape_string($conn,md5($_POST["password"]));
-$role=mysqli_real_escape_string($conn,$_POST["role"]);
-
-// Check if username already exists //you can use here sql query
-
-//Check query use echo $sql; and after that use die (testing purposes)
-$sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$user}',role='{$role}' WHERE user_id={$user_id}";
-
- if(mysqli_query($conn,$sql)){
-    header("Location:users.php");
-    }
-  }
 ?>
   <div id="admin-content">
       <div class="container">
@@ -48,11 +30,15 @@ $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$use
                       </div>
                           <div class="form-group">
                           <label>First Name</label>
-                          <input type="text" name="f_name" class="form-control" value="<?php echo $row["first_name"]; ?>" placeholder="" required>
+                          <input type="text" name="fname" class="form-control" value="<?php echo $row["first_name"]; ?>" placeholder="" required>
                       </div>
                       <div class="form-group">
                           <label>Last Name</label>
-                          <input type="text" name="l_name" class="form-control" value="<?php echo $row["last_name"]; ?>" placeholder="" required>
+                          <input type="text" name="lname" class="form-control" value="<?php echo $row["last_name"]; ?>" placeholder="" required>
+                      </div>
+                      <div class="form-group">
+                          <label>Phone Number (International Format)</label>
+                          <input type="tel" name="phone" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" class="form-control" placeholder="+123456789012" value="<?php echo $row["phone_number"]; ?>" required>
                       </div>
                       <div class="form-group">
                           <label>User Name</label>
@@ -60,7 +46,7 @@ $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$use
                       </div>
                       <div class="form-group">
                           <label>User Role</label>
-                          <select class="form-control" name="role" value="<?php echo $row['role']; ?>">
+                          <select class="form-control" name="role">
                             <?php
                             if($row["role"]==1){
                            echo "<option value='0'>normal User</option>
@@ -77,9 +63,36 @@ $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$use
                   <!-- /Form -->
                   <?php
                  }//while close
-              } //if close?>
+              } //if close
+              // Update Info
+              if(isset($_POST["submit"])){
+                var_dump($_POST);
+                $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
+                if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || $_POST["role"] === "" || empty($_POST["phone"])) {
+                    echo "<div class='alert alert-danger'>All fieds are required and Entered </div>";
+                } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
+                    echo "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only) </div>";
+                } else {
+                  $user_id=mysqli_real_escape_string($conn,$_POST["user_id"]);
+                  $fname=mysqli_real_escape_string($conn,$_POST["fname"]);
+                  $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
+                  $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
+                  $user=mysqli_real_escape_string($conn,$_POST["username"]);
+                  $role=mysqli_real_escape_string($conn,$_POST["role"]);
+                  //Check query use echo $sql; and after that use die (testing purposes)
+                  $sql="UPDATE user SET first_name='{$fname}',last_name='{$lname}',username='{$user}',role='{$role}',phone_number='{$phoneNumber}' WHERE user_id={$user_id}";
+              
+                  if(mysqli_query($conn,$sql)){
+                      header("Location:users.php");
+                  }
+                }
+              }
+              ?>
               </div>
           </div>
       </div>
   </div>
-<?php include "../footer.php"; ?>
+<?php 
+  include "../footer.php"; 
+  ob_end_flush();
+?>
