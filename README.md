@@ -25,6 +25,10 @@ Administrators can manage the following on the admin side:
 
 The website is integrated with newsapi.org and uses an automated API retrieval system. The system checks for new articles every hour and retrieves the latest news from various sources around the world. Currently, the system is limited to a maximum of 100 API requests per day, ensuring that the website is updated at least every 1 hour and 12 minutes.
 
+## SMS Notifications
+
+Users will be notified via SMS when new articles are added to the website. The website is integrated with two SMS APIs - Textlocal and ClickSend - to ensure that notifications are sent to users located in different parts of the world. Textlocal is used for users located in the Philippines, while ClickSend is used for users located in other countries. The SMS notifications are sent within a few minutes of a new article being added to the website.
+
 ## Deployed Website URL
 
 The deployed website can be found at https://futuretechnews.rf.gd.
