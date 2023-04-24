@@ -1,9 +1,10 @@
 /* ===================== */
 /* COMMOM CSS */
 body{
-    background-image: linear-gradient(rgba(54, 54, 54, 0.3),rgba(54, 54, 54,0.3)),url("../images/bg5.png");
+    background-image: url('../images/bg8.png');
     background-size: 100%;
     font-family: sans-serif,arial,Helvetica;
+    color: white;
 }
 
 a,
@@ -35,54 +36,10 @@ h2.page-heading{
 /* ADMIN Panel CSS START */
 /* ===================== */
 
-.main-container {
-    margin: auto;
-    width: 450px;
-    height: 420px;
-    padding: 10px;
-    background-color: #D3D3D3;
-    position: relative;
-    border-radius: 10px;
-    color: black;
-}
-
-.main-container-reg{
-    margin: auto;
-    width: 450px;
-    height: 650px;
-    padding: 10px;
-    background-color: #D3D3D3;
-    position: relative;
-    border-radius: 10px;
-    color: black;
-}
-
-.logo-container {
-    margin: auto;
-    width: 420px;
-    height: 60px;
-    background-color: black;
-    position: relative;
-    border-radius: 10px;
-    color: white;
-}
-
 #wrapper-admin{
-    padding: 50px 0 0;
-    color: white;
-    position: left;
+    padding: 160px 0 0;
+    color: #2E3033;
 }
-
-#wrapper-admin2{
-    padding: 150px 0 0;
-    color: white;
-    position: left;
-}
-
-
-.label-un {
-    color: black;
-  }
 
 img.logo{
     width: 400px;
@@ -91,25 +48,29 @@ img.logo{
 }
 
 #header-admin{          /* #1E90FF */
-    background-color: rgb(201, 201, 201);
+    background-color: #21201E;
     padding: 15px 0;
 }
 
 #header-admin .admin-logout{
     margin: 10px 0;
     color: black;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     text-transform: uppercase;
     display: inline-block;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 #header-admin .admin-logout:hover{
-    text-decoration: underline;
+    color: white;
+    background-color: #4D4A4F;
 }
 
 #admin-menubar{
-    background-color: #fff;
+    background-color: #2E3033;
 }
 #admin-menubar .admin-menu{
     font-size: 0;
@@ -119,7 +80,7 @@ img.logo{
     margin: 0 5px 0 0;
 }
 #admin-menubar .admin-menu li a{
-    color: black;
+    color: white;
     font-size: 16px;
     font-weight: 600;
     text-transform: uppercase;
@@ -129,16 +90,26 @@ img.logo{
 }
 
 #admin-menubar .admin-menu li a:hover{
-    color: #fff;
-    background-color: black;
+    color: black;
+    background-color: white;
 }
 
 #admin-content{
+    color: black;
     padding: 20px 0;
     min-height: 750px;
 }
 
+
 #admin-content .admin-heading{
+    color: white;
+    font-size: 35px;
+    margin: 0 0 15px;
+}
+
+#admin-content .admin-settings-heading{
+    color: white;
+    text-align: center;
     font-size: 35px;
     margin: 0 0 15px;
 }
@@ -196,6 +167,15 @@ img.logo{
 
 }
 
+#admin-content .content-table tbody tr:nth-child(odd){
+    color: black;
+}
+
+#admin-content .content-table tbody tr:nth-child(even){
+    color: black;
+    background-color: white;
+}
+
 #admin-content .content-table tbody td:nth-child(2){
     text-align: left;
 }
@@ -245,7 +225,7 @@ form{
 
 /* Menubar Styling */
 #menu-bar{
-    background: #333;
+    background: #2E3033;
     text-align: center;
 }
 
@@ -276,9 +256,10 @@ form{
 }
 
 #main-content .post-container{
-    background-color: #b;
+    background-color: #fff;
     padding: 25px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+     border-radius: 10px;
 }
 
 #main-content .post-content{
@@ -473,6 +454,7 @@ i.fa{
     padding: 20px;
     margin: 0 0 30px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
 }
 
 #sidebar .search-post{
@@ -511,6 +493,7 @@ i.fa{
     padding: 20px;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
 }
 
 #sidebar .recent-post{

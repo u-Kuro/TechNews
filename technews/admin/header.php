@@ -11,7 +11,7 @@
         <!-- Font Awesome Icon -->
         <link rel="stylesheet" href="../css/font-awesome.css">
         <!-- Custom stlylesheet -->
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/style2.css">
         <link rel="shortcut icon" href="../images/icon.png" type="image/x-icon">
     </head>
     <body>

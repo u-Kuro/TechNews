@@ -63,7 +63,7 @@ switch ($pagename) {
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <!-- Custom stlylesheet -->
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style2.css">
     <link rel="shortcut icon" href="../images/icon.png" type="image/x-icon">
 </head>
 <body>
@@ -80,7 +80,7 @@ switch ($pagename) {
             <!-- /LOGO -->
               <!-- LOGO-Out -->
             <div class="col-md-offset-7 col-md-3">
-                <a href="../logout.php" class="admin-logout">Hello <?php echo $_SESSION["username"] ?>, logout</a>
+                <button onclick="location.href='../logout.php'" class="admin-logout">Hello <?php echo $_SESSION["username"] ?>, logout</button>
             </div>
             <!-- /LOGO-Out -->
         </div>

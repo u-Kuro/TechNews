@@ -87,36 +87,44 @@ include 'header.php';
                       echo "<h2> No Posts Record Found</h2>";
                   }?>
 
-                  <?php
-                    //show pagenation codes
-                    $sql1="SELECT * FROM category WHERE category_id={$cat_id}";
-                    $result1=mysqli_query($conn,$sql1) or die("Query Failed");
-                    $row=mysqli_fetch_assoc($result1);
+<?php
+// Show pagination codes
+$sql1 = "SELECT * FROM category WHERE category_id={$cat_id}";
+$result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+$row = mysqli_fetch_assoc($result1);
 
-                    if(mysqli_num_rows($result1) >0 ){
-                      $total_records=$row['post'];
-                      //$limit=3;
-                      $total_pages= ceil ($total_records / $limit);  //return upper value
-                      echo "<ul class='pagination admin-pagination'>";
-                      if($page>1){ //1>2
-                          echo'<li><a href="category.php?cid='.$cat_id.'&page='.($page - 1). '">Prev</a></li>';
-                      }
+if (mysqli_num_rows($result1) > 0) {
+  $total_records = $row['post'];
+  $limit = 3; // Set the limit of records to display per page
+  $total_pages = ceil($total_records / $limit); // Calculate the total number of pages
 
-                      for ($i=1; $i<=$total_pages; $i++) { //means 3 time print buttons
-                        //active class code
-                        if($i==$page){
-                          $active="active";
-                        }else{
-                          $active="";
-                        }
-                          echo '<li class="'.$active.'"><a href="category.php?cid='.$cat_id.'&page=' .$i .'">'.$i.'</a></li>';
-                      } //for close
-                       if($total_pages>$page){ //3>2
-                            echo'<li><a href="category.php?cid='.$cat_id.'&page='.($page + 1).'">Next</a></li>';
-                       }
-                        echo "</ul>";
-                    }
-                    ?>
+  // Calculate the range of pages to display
+  $current_group = ceil($page / 3); // Calculate the current page group
+  $start = ($current_group - 1) * 3 + 1; // Calculate the start page of the current group
+  $end = min($start + 2, $total_pages); // Calculate the end page of the current group
+
+  echo "<ul class='pagination admin-pagination'>";
+  if ($page > 1) {
+    echo '<li><a href="category.php?cid=' . $cat_id . '&page=' . ($page - 1) . '">Prev</a></li>';
+  }
+
+  for ($i = $start; $i <= $end; $i++) {
+    // Active class code
+    if ($i == $page) {
+      $active = "active";
+    } else {
+      $active = "";
+    }
+    echo '<li class="' . $active . '"><a href="category.php?cid=' . $cat_id . '&page=' . $i . '">' . $i . '</a></li>';
+  }
+
+  if ($current_group * 3 < $total_pages) {
+    echo '<li><a href="category.php?cid=' . $cat_id . '&page=' . ($end + 1) . '">Next</a></li>';
+  }
+  echo "</ul>";
+}
+?>
+
 
                 </div><!-- /post-container -->
             </div>

@@ -18,16 +18,19 @@
         <link rel="shortcut icon" href="images/icon.png" type="image/x-icon">
     </head>
     <body>
-        <div id="wrapper-admin" class="body-content">
+     
+        <div id="wrapper-admin2" class="body-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-offset-4 col-md-4">
+                    <div class="main-container">
+                    <div class="logo-container">
                         <img class="logo" src="images/tech-news-withoutbg.png">
-                        <h3 class="heading">Sign-Up</h3>
+                    </div>
+                        <h3 class="heading">Login</h3>
                         <!-- Form Start -->
                         <form  action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">
                             <div class="form-group">
-                                <label>Username</label>
+                                <label class="label-un">Username</label>
                                 <?php
                                     $username = "";
                                     if(isset($_GET['username'])){
@@ -39,15 +42,16 @@
                                 <input type="text" name="username" class="form-control" placeholder="" value="<?php echo $username; ?>" required>
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
+                                <label class="label-un">Password</label>
                                 <input type="password" name="password" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-footer">
                                 <input type="submit" name="login" class="btn btn-primary" value="Login" />
-                                <p>Don't have an account? <a href="register.php">Register here.</a></p>
+                                <p class="label-un">Don't have an account? <a href="register.php">Register here.</a></p>
                             </div>
                         </form>
                         <!-- /Form  End -->
+                        
                         <?php
                         if(isset($_POST["login"])){
                             //if field are empty
@@ -70,9 +74,11 @@
                             }//sub else close
                         } //root if close
                       ?>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+  
     </body>
 </html>

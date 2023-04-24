@@ -1,15 +1,22 @@
 <?php
-// Set the database hostname, username, password, and name
-$hostname = "localhost";
-$username = "root";
-$password = "";
-$dbname = "technews";
-
+if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1') {
+    $hostname = "sql305.epizy.com";
+    $username = "epiz_34013501";
+    $password = "tSplbtSxVIQ";
+    $dbname = "epiz_34013501_technews";
+    //echo __DIR__; // check current directory in webserver
+    $cacheFile = '/api/newsapi/newsAPIcache.json';  
+} else {
+    $hostname = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "technews";
+    $cacheFile = '\api\newsapi\newsAPIcache.json';
+}
+$cacheFile = __DIR__.$cacheFile;
 // Connect to the database
 $conn = mysqli_connect($hostname, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
-// require_once 'api/newsapi/newsapi.php';
-// Set the cache file path, request limit, and interval time
-$cacheFile = __DIR__ . '\api\newsapi\newsAPIcache.json';
+
 $requestLimit = 100/5; // Current newsapi limit is 100 divided by 5 different request
 $intervalTime = 86400 / $requestLimit; // Interval request for 24 hours (in seconds)
 
@@ -21,6 +28,7 @@ if ($file_not_existing) {
     chmod($cacheFile, 0666); // Set file permissions to allow read/write access
     file_put_contents($cacheFile, true);
 }
+
 // Run if cache does not exists and has not expired
 if ($file_not_existing || time() - @filemtime($cacheFile) > $intervalTime) {
     // Add cache file and set the file modification time to now   

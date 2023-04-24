@@ -76,34 +76,43 @@ include 'header.php';
                 echo "<h2> No Record Found</h2>";
             }?>
 
-            <?php
-              //show pagenation codes
-              $sql1="SELECT * FROM post";           //The user who is there will see the post
-              $result1=mysqli_query($conn,$sql1) or die("Query Failed");
-              if(mysqli_num_rows($result1) >0 ){
-                $total_records=mysqli_num_rows($result1);
-                //$limit=3;
-                $total_pages= ceil ($total_records / $limit);  //return upper value
-                echo "<ul class='pagination admin-pagination'>";
-                if($page>1){ //1>2
-                    echo'<li><a href="home.php?page='.($page - 1). '">Prev</a></li>';
-                }
+<?php
+// Show pagination codes
+$sql1 = "SELECT * FROM post"; // Fetch posts from database
+$result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+if (mysqli_num_rows($result1) > 0) {
+    $total_records = mysqli_num_rows($result1);
+    $limit = 3; // Number of records to display per page
+    $total_pages = ceil($total_records / $limit); // Calculate total number of pages
+    $current_page = isset($_GET['page']) ? $_GET['page'] : 1; // Get current page from URL parameter
+    $start = ($current_page - 1) * $limit; // Calculate starting record for current page
 
-                for ($i=1; $i<=$total_pages; $i++) { //means 3 time print buttons
-                  //active class code
-                  if($i==$page){
-                    $active="active";
-                  }else{
-                    $active="";
-                  }
-                    echo '<li class="'.$active.'"><a href="home.php?page=' .$i .'">'.$i.'</a></li>';
-                } //for close
-                 if($total_pages>$page){
-                      echo'<li><a href="home.php?page='.($page + 1).'">Next</a></li>';
-                 }
-                  echo "</ul>";
-              }
-              ?>
+    echo "<ul class='pagination admin-pagination'>";
+
+    if ($current_page > 1) { // If not on the first page, display "Prev" button
+        echo '<li><a href="home.php?page=' . ($current_page - 1) . '">Prev</a></li>';
+    }
+
+    // Display up to 3 pages at a time
+    $end = min($current_page + 2, $total_pages); // Calculate ending page
+    $start = max($end - 2, 1); // Calculate starting page
+    for ($i = $start; $i <= $end; $i++) {
+        $active = ($i == $current_page) ? "active" : ""; // Add "active" class to current page
+        echo '<li class="' . $active . '"><a href="home.php?page=' . $i . '">' . $i . '</a></li>';
+    }
+
+    if ($current_page + 2 < $total_pages) { // If not on the last set of 3 pages, display "Next" button
+        echo '<li><a href="home.php?page=' . ($current_page + 3) . '">Next</a></li>';
+    }
+
+    echo "</ul>";
+}
+?>
+
+
+
+
+
 
             </div><!-- /post-container -->
         </div>

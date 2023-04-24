@@ -19,7 +19,7 @@ if(!isset($_SESSION["username"])){
               </div>
               <div class="col-md-12">
               <?php
-              $limit=3;
+              $limit=5;
               if(isset($_GET["page"])){  //first time page refresh error solve
                 $page=$_GET["page"];
               }else{
@@ -69,37 +69,46 @@ if(!isset($_SESSION["username"])){
                       </tbody>
                   </table>
 
-                  <?php }
-                //show pagenation codes
-                if($_SESSION["user_role"]==1){
-                  $sql1="SELECT * FROM post";       //The user who is there will see the post
-                }
+                  <?php
+// Show pagination codes
+if ($_SESSION["user_role"] == 1) {
+  $sql1 = "SELECT * FROM post"; // The user who is there will see the post
+}
 
-                $result1=mysqli_query($conn,$sql1) or die("Query Failed");
-                if(mysqli_num_rows($result1) >0 ){
-                  $total_records=mysqli_num_rows($result1);
-                  //$limit=3;
-                  $total_pages= ceil ($total_records / $limit);  //return upper value
-                  echo "<ul class='pagination admin-pagination'>";
-                  if($page>1){ //1>2
-                      echo'<li><a href="post.php?page='.($page - 1). '">Prev</a></li>';
-                  }
+$result1 = mysqli_query($conn, $sql1) or die("Query Failed");
+if (mysqli_num_rows($result1) > 0) {
+  $total_records = mysqli_num_rows($result1);
+  $limit = 5; // Maximum rows per page
+  $total_pages = ceil($total_records / $limit);
 
-                  for ($i=1; $i<=$total_pages; $i++) { //means 3 time print buttons
-                    //active class code
-                    if($i==$page){
-                      $active="active";
-                    }else{
-                      $active="";
-                    }
-                      echo '<li class="'.$active.'"><a href="post.php?page=' .$i .'">'.$i.'</a></li>';
-                  } //for close
-                   if($total_pages>$page){ //3>2
-                        echo'<li><a href="post.php?page='.($page + 1).'">Next</a></li>';
-                   }
-                    echo "</ul>";
-                }
-                ?>
+  echo "<ul class='pagination admin-pagination'>";
+  if ($page > 1) {
+    echo '<li><a href="post.php?page=' . ($page - 1) . '">Prev</a></li>';
+  }
+
+  $current_group = ceil($page / 3);
+  $start = ($current_group - 1) * 3 + 1;
+  $end = min($start + 2, $total_pages);
+
+  for ($i = $start; $i <= $end; $i++) {
+    // Active class code
+    if ($i == $page) {
+      $active = "active";
+    } else {
+      $active = "";
+    }
+    echo '<li class="' . $active . '"><a href="post.php?page=' . $i . '">' . $i . '</a></li>';
+  }
+
+  if ($current_group * 3 < $total_pages) {
+    echo '<li><a href="post.php?page=' . ($end + 1) . '">Next</a></li>';
+  }
+  echo "</ul>";
+}
+              }
+?>
+
+
               </div>
           </div>
       </div>

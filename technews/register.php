@@ -21,34 +21,36 @@
         <div id="wrapper-admin" class="body-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-offset-4 col-md-4">
+                <div class="main-container-reg">
+                <div class="logo-container">
                         <img class="logo" src="images/tech-news-withoutbg.png">
-                        <h3 class="heading">Sign-In</h3>
+                    </div>
+                        <h3 class="heading">Sign-Up</h3>
                         <!-- Form Start -->
                         <form  action="<?php $_SERVER['PHP_SELF']; ?>" method ="POST">
                             <div class="form-group">
-                                <label>First Name</label>
+                                <label class="label-un">First Name</label>
                                 <input type="text" name="fname" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
-                                <label>Last Name</label>
+                                <label class="label-un">Last Name</label>
                                 <input type="text" name="lname" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
-                                <label>Phone Number (International Format)</label>
+                                <label class="label-un">Phone Number (International Format)</label>
                                 <input type="tel" name="phone" pattern="^\+(?:[0-9] ?){6,14}[0-9]$" class="form-control" placeholder="+123456789012" required>
                             </div>
                             <div class="form-group">
-                                <label>Username</label>
+                                <label class="label-un">Username</label>
                                 <input type="text" name="username" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
+                                <label class="label-un">Password</label>
                                 <input type="password" name="password" class="form-control" placeholder="" required>
                             </div>
                             <div class="form-footer">
                                 <input type="submit" name="register" class="btn btn-primary" value="Register" />
-                                <p>Already Have an Account? <a href="login.php">Login Here.</a></p>
+                                <p class="label-un">Already Have an Account? <a href="login.php">Login Here.</a></p>
                             </div>
                         </form>
                         <!-- /Form  End -->
