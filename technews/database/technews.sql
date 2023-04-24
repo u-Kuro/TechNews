@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2023 at 04:45 PM
+-- Generation Time: Apr 24, 2023 at 09:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -48,10 +48,10 @@ INSERT INTO `api_interval` (`api_name`, `last_update`) VALUES
 
 CREATE TABLE `category` (
   `category_id` int(11) NOT NULL,
-  `category_name` text NOT NULL,
+  `category_name` mediumtext NOT NULL,
   `post` int(10) NOT NULL,
-  `query` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `query` mediumtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category`
@@ -71,15 +71,15 @@ INSERT INTO `category` (`category_id`, `category_name`, `post`, `query`) VALUES
 
 CREATE TABLE `post` (
   `post_id` int(11) NOT NULL,
-  `title` text NOT NULL,
-  `description` text NOT NULL,
+  `title` mediumtext NOT NULL,
+  `description` mediumtext NOT NULL,
   `category` int(10) NOT NULL,
   `post_date` datetime NOT NULL,
-  `author` text NOT NULL,
-  `post_img` text NOT NULL,
-  `content` text NOT NULL,
-  `post_url` text NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `author` mediumtext NOT NULL,
+  `post_img` mediumtext NOT NULL,
+  `content` mediumtext NOT NULL,
+  `post_url` mediumtext NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `post`
@@ -283,13 +283,13 @@ INSERT INTO `settings` (`id`, `websitename`, `logo`, `footerdesc`) VALUES
 
 CREATE TABLE `user` (
   `user_id` int(10) UNSIGNED NOT NULL,
-  `first_name` text NOT NULL,
-  `last_name` text NOT NULL,
-  `username` text DEFAULT NULL,
-  `password` text DEFAULT NULL,
-  `phone_number` text NOT NULL,
+  `first_name` mediumtext NOT NULL,
+  `last_name` mediumtext NOT NULL,
+  `username` mediumtext DEFAULT NULL,
+  `password` mediumtext DEFAULT NULL,
+  `phone_number` mediumtext NOT NULL,
   `role` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`

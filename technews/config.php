@@ -16,6 +16,7 @@ if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1'
 $cacheFile = __DIR__.$cacheFile;
 // Connect to the database
 $conn = mysqli_connect($hostname, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
+mysqli_set_charset($conn, "utf8");
 
 $requestLimit = 100/5; // Current newsapi limit is 100 divided by 5 different request
 $intervalTime = 86400 / $requestLimit; // Interval request for 24 hours (in seconds)
