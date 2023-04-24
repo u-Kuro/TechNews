@@ -28,6 +28,7 @@ h2.page-heading{
   margin: 5px 0 30px;
   padding: 0 5px 10px;
   border-bottom: 2px solid #333;
+  color: #000;
 }
 
 /* ===================== */
@@ -259,7 +260,8 @@ form{
     background-color: #fff;
     padding: 25px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-     border-radius: 10px;
+    border-radius: 10px;
+    color: #000;
 }
 
 #main-content .post-content{

@@ -30,7 +30,7 @@ include 'header.php';
                         $content = $row['content'];
                         $contentUrl = $row['post_url'];
                         if(!empty($contentUrl)){
-                            $content = preg_replace("/\[\+\d+ chars\]/", "eeee", $content);
+                            $content = preg_replace("/\[\+\d+ chars\]/", "<a href='$contentUrl'>see more</a>", $content);
                         } else {
                             $content = preg_replace("/\[\+\d+ chars\]/", "", $content);
                         }
