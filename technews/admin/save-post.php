@@ -18,14 +18,13 @@ $imageUrl=mysqli_real_escape_string($conn,$_POST['imageUrl']);
 $postUrl=mysqli_real_escape_string($conn,$_POST['postUrl']);
 
 $sql= "INSERT INTO post (title,author,description,category,post_url,post_img,post_date,content)
-VALUES('{$title}','{$author}','{$description}','{$category}','{$postUrl}','{$imageUrl}',STR_TO_DATE('{$date}', '%Y-%m-%dT%H:%i'),content='{$content}');";
-echo $sql;
-//
+VALUES('{$title}','{$author}','{$description}','{$categoryid}','{$postUrl}','{$imageUrl}',STR_TO_DATE('{$date}', '%Y-%m-%dT%H:%i'),content='{$content}');";
+
 //category counting will continue in the category value table when the category of which the post will be inserted by default was 0 posts.
 $sql.="UPDATE category SET post=post+1 WHERE category_id= {$categoryid}";
 
  if(mysqli_multi_query($conn,$sql)){
- header("Location: post.php");
+  header("Location: post.php");
  }else{
   echo "<div class='alert alert-danger'>Query Failed</div>";
 }

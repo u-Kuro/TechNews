@@ -31,7 +31,7 @@ if(!isset($_SESSION["username"])){
               if($_SESSION["user_role"]==1){  //means normal user hai toh redirect
                 $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
-                ORDER BY post_id DESC LIMIT {$offset}, {$limit}";   //view latest post information
+                ORDER BY post_date DESC LIMIT {$offset}, {$limit}";   //view latest post information
               }
               $result=mysqli_query($conn,$sql) or die("Query failed ");
               if(mysqli_num_rows($result) > 0 ){

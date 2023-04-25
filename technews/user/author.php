@@ -32,7 +32,7 @@ include 'header.php';
               $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
               LEFT JOIN category ON post.category=category.category_id
               WHERE post.author='{$author}'
-              ORDER BY post_id DESC LIMIT {$offset}, {$limit}";
+              ORDER BY post_date DESC LIMIT {$offset}, {$limit}";
 
               $result=mysqli_query($conn,$sql) or die("Query failed ");
               if(mysqli_num_rows($result) > 0 ){

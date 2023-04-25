@@ -49,15 +49,18 @@ include "header.php";
       </div>
     </div>
   </div>
+  
 <?php 
 include "../footer.php"; 
-if (isset($_GET['sms-sent']) && $_GET['sms-sent'] === 'true') {
+if (isset($_GET['alertMessage']) && !empty($_GET['alertMessage'])) {
+  $alertMessage = $_GET['alertMessage'];
 ?>
+  <input type="hidden" id="alertMessage" class="btn btn-primary" value="<?php echo $alertMessage ?>" />
   <script>
     window.onload = function() {
       window.history.replaceState(null, null, window.location.pathname);
-      var message = "Users have been successfully notified with the latest news!";
-      alert(message);
+      var alertMessage = document.getElementById('alertMessage').value;
+      alert(alertMessage);
     }
   </script>
 <?php 

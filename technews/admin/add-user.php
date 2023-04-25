@@ -7,6 +7,36 @@ if(!isset($_SESSION["username"])){
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
 }
+//Save User information Into Database
+if(isset($_POST["save"])){
+    $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
+    if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["user"]) || empty($_POST["password"]) || empty($_POST["phone"]) || $_POST["role"] === "") {
+        echo "<div class='alert alert-danger'>All fields are required and Entered </div>";
+    } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
+        echo "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only) </div>";
+    } else {
+        $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
+        $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
+        $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
+        $user=mysqli_real_escape_string($conn,$_POST["user"]);
+        $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
+        $role=mysqli_real_escape_string($conn,$_POST["role"]);
+        // Check if username already exists
+        // Check query use echo $sql; and after that use die (testing purposes)
+        $sql="SELECT username from user WHERE username='{$user}'";
+        $result=mysqli_query($conn,$sql) or die("Query failed");
+        if(mysqli_num_rows($result) > 0){
+            echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
+        } else {
+            $sql1="INSERT INTO user (first_name,last_name,username,password,phone_number,role)
+                    VALUES ('{$fname}','{$lname}','{$user}','{$password}','{$phoneNumber}','{$role}')";
+            if(mysqli_query($conn,$sql1)){
+                echo "Successfully Added.";
+                header("Location: users.php");
+            }
+        }
+    }
+}
 ?>
   <div id="admin-content">
       <div class="container">
@@ -47,40 +77,6 @@ if(!isset($_SESSION["username"])){
                       <input type="submit"  name="save" class="btn btn-primary" value="Save" required />
                   </form>
                    <!-- Form End-->
-                   <?php
-                    //Save User information Into Database
-                    if(isset($_POST["save"])){
-                        $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
-                        if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["phone"]) || $_POST["role"] === "") {
-                            echo "<div class='alert alert-danger'>All fieds are required and Entered </div>";
-                        } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
-                            echo "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only) </div>";
-                        } else {
-                            $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
-                            $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
-                            $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
-                            $user=mysqli_real_escape_string($conn,$_POST["user"]);
-                            $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
-                            $role=mysqli_real_escape_string($conn,$_POST["role"]);
-                            // Check if username already exists
-                            // Check query use echo $sql; and after that use die (testing purposes)
-                            $sql="SELECT username from user WHERE username='{$user}'";
-                            $result=mysqli_query($conn,$sql) or die("Query failed");
-                        
-                            if(mysqli_num_rows($result) > 0){
-                                echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
-                            } else {
-                        
-                                $sql1="INSERT INTO user(first_name,last_name,username,password,role)
-                                        VALUES ('{$fname}','{$lname}','{$user}','{$password}','{$role}')";
-                        
-                                    if(mysqli_query($conn,$sql1)){
-                                        header("Location: users.php");
-                                    }
-                                }
-                            }
-                        }
-                   ?>
                </div>
            </div>
        </div>

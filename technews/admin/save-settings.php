@@ -46,15 +46,34 @@ if (isset($_POST['submit'])) {
   
   $result = mysqli_query($conn,$sql);
 } else if (isset($_POST['send-sms'])) {
-  // Call news update API followed by SMS api
-  include '../api/newsapi/newsapi.php';
   // Update API interval
   $apis = ['newsapi','clicksend'];
   foreach ($apis as $api) {
     $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api}'";
     mysqli_query($conn, $sql);
   }
-  $location = $location.'?sms-sent=true';
+  if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1') {
+    //echo __DIR__; // check current directory in webserver
+    $cacheFiles = '/api/newsapi/newsAPIcache.json';
+  } else {
+    $cacheFile = '\api\newsapi\newsAPIcache.json';
+  }
+    $cacheFile = dirname(__DIR__).$cacheFile;
+    if(!file_exists($cacheFile)){
+      $fp = fopen($cacheFile, 'w');
+      fclose($fp);
+      chmod($cacheFile, 0666); // Set file permissions to allow
+      file_put_contents($cacheFile, true);
+    }
+    touch($cacheFile);
+    $manualUpdate = true;
+    // Call news update API followed by SMS api
+  include '../api/newsapi/newsapi.php';
+  if(isset($alertMessage)){
+    $location = $location.$alertMessage;
+  } else {
+    $location = $location.'?alertMessage=Users have been successfully notified with the latest news!';
+  }
 }
 
 if($result){
