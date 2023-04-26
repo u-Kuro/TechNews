@@ -45,7 +45,8 @@ include 'header.php';
                           $imgHTML = '<img src="'.$image_link.'" alt="blank" loading="lazy" onerror="this.src=\'../images/default-image.png\'"/>';
                       }
                   }
-                    $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+                  $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+
                 ?>
                     <div class="post-content">
                         <div class="row">
