@@ -31,7 +31,7 @@ if ($file_not_existing) {
 }
 
 // Run if cache does not exists and has not expired
-if ($file_not_existing || time() - @filemtime($cacheFile) > $intervalTime || true) {
+if ($file_not_existing || time() - @filemtime($cacheFile) > $intervalTime) {
     // Add cache file and set the file modification time to now   
     touch($cacheFile);
     // Cache does not exist or has expired, fetch new data
