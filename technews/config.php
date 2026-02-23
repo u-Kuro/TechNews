@@ -6,7 +6,20 @@ if (getenv("IS_PROD")) {
     $password = getenv('MYSQL_PASSWORD');
     $dbname = getenv('MYSQL_DATABASE');
     $port = getenv('MYSQL_PORT');
-    $caCertPath = '/etc/secrets/ca.pem';
+    $possiblePaths = [
+        '/etc/secrets/ca.pem',
+        '/var/www/html/ca.pem',
+        __DIR__ . '/ca.pem'
+    ];
+    
+    $caCertPath = null;
+    foreach ($possiblePaths as $path) {
+        if (file_exists($path)) {
+            $caCertPath = $path;
+            echo "CA certificate found at: " . $caCertPath . "\n";
+            break;
+        }
+    }
     echo __DIR__; // check current directory in webserver
     $cacheFile = '/api/newsapi/newsAPIcache.json';
 } else {
