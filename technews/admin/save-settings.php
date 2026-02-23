@@ -52,7 +52,7 @@ if (isset($_POST['submit'])) {
     $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api}'";
     mysqli_query($conn, $sql);
   }
-  if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1') {
+  if (getenv("IS_PROD")) {
     //echo __DIR__; // check current directory in webserver
     $cacheFiles = '/api/newsapi/newsAPIcache.json';
   } else {

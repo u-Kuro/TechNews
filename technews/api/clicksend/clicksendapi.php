@@ -4,8 +4,8 @@
     $sender = urlencode(getenv("CLICKSEND_SENDER"));
 
     ////
-    $AppWebLink = 'https://futuretechnews.rf.gd/';
-    if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1') {
+    $AppWebLink = 'https://technews-j6sa.onrender.com/';
+    if (getenv("IS_PROD")) {
           // Code to run if the script is not running on the localhost
         // echo __DIR__; // check current directory in webserver
         $cacheFile = '/clicksendapicache.json';
