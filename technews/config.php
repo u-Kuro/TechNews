@@ -1,10 +1,12 @@
 <?php
 date_default_timezone_set('UTC');
 if (getenv("IS_PROD")) {
-    $hostname = getenv('MYSQL_HOST') ?? 'localhost';
-    $username = getenv('MYSQL_USER') ?? 'root';
-    $password = getenv('MYSQL_PASSWORD') ?? '';
-    $dbname = getenv('MYSQL_DATABASE') ?? 'technews';
+    $hostname = getenv('MYSQL_HOST');
+    $username = getenv('MYSQL_USER');
+    $password = getenv('MYSQL_PASSWORD');
+    $dbname = getenv('MYSQL_DATABASE');
+    $port = getenv('MYSQL_PORT');
+    $caCertPath = '/etc/secrets/ca.pem';
     echo __DIR__; // check current directory in webserver
     $cacheFile = '/api/newsapi/newsAPIcache.json';
 } else {
@@ -12,11 +14,30 @@ if (getenv("IS_PROD")) {
     $username = "root";
     $password = "";
     $dbname = "technews";
+    $port = 3306;
     $cacheFile = '\api\newsapi\newsAPIcache.json';
 }
 $cacheFile = __DIR__.$cacheFile;
 // Connect to the database
-$conn = mysqli_connect($hostname, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
+if (getenv("IS_PROD")) {
+    // Production: Use SSL connection with CA certificate
+    $conn = mysqli_init();
+    
+    if (!$conn) {
+        die("mysqli_init failed");
+    }
+    
+    // Set SSL options with CA certificate
+    mysqli_ssl_set($conn, NULL, NULL, $caCertPath, NULL, NULL);
+    
+    // Connect with SSL
+    if (!mysqli_real_connect($conn, $hostname, $username, $password, $dbname, $port, NULL, MYSQLI_CLIENT_SSL)) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+} else {
+    // Local: Standard connection
+    $conn = mysqli_connect($hostname, $username, $password, $dbname) or die("Connection failed: " . mysqli_connect_error());
+}
 mysqli_set_charset($conn, "utf8");
 $requestLimit = 100/5; // Current newsapi limit is 100 divided by 5 different request
 $intervalTime = 86400 / $requestLimit; // Interval request for 24 hours (in seconds)
