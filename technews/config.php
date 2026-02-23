@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set('UTC');
 if ($_SERVER['REMOTE_ADDR'] !== '127.0.0.1' && $_SERVER['REMOTE_ADDR'] !== '::1') {
-    $hostname = "sql305.epizy.com";
-    $username = "epiz_34013501";
-    $password = "tSplbtSxVIQ";
-    $dbname = "epiz_34013501_technews";
+    $hostname = getenv('MYSQL_HOST');
+    $username = getenv('MYSQL_USER');
+    $password = getenv('MYSQL_PASSWORD');
+    $dbname = getenv('MYSQL_DATABASE');
     //echo __DIR__; // check current directory in webserver
     $cacheFile = '/api/newsapi/newsAPIcache.json';  
 } else {
