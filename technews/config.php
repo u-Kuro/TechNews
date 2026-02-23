@@ -11,8 +11,7 @@ if (getenv("IS_PROD")) {
     $caCertContent = getenv('MYSQL_CA_CERT');    
     file_put_contents($caCertPath, $caCertContent);
     chmod($caCertPath, 0600); // Set proper permissions
-    echo "\n\nCA cert written to: " . $caCertPath . "<br>";
-    echo "\n\n__DIR__".__DIR__; // check current directory in webserver
+    // echo __DIR__; // check current directory in webserver
     $cacheFile = '/api/newsapi/newsAPIcache.json';
 } else {
     $hostname = "localhost";
