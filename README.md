@@ -31,4 +31,4 @@ Users will be notified via SMS when new articles are added to the website. The w
 
 ## Deployed Website URL
 
-The deployed website can be found at https://futuretechnews.rf.gd.
+The deployed website can be found at https://technews-j6sa.onrender.com
