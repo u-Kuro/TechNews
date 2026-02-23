@@ -75,6 +75,9 @@
                                 } else {
                                     $sql1="INSERT INTO user(first_name,last_name,username,password,phone_number,role)
                                         VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}',0)";
+                                    // Debug: Show the actual SQL
+                                    error_log("SQL: " . $sql1);
+                                    echo "<!-- SQL: " . htmlspecialchars($sql1) . " -->";
                                     if(mysqli_query($conn,$sql1)){
                                         header("Location: login.php?username=$username");
                                     }
