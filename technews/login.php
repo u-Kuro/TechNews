@@ -68,6 +68,7 @@
                                     $_SESSION["username"] = $row["username"];
                                     $_SESSION["user_role"] = $row["role"];
                                     $row["role"]==1 ? header("Location: admin/post.php") : header("Location: user/home.php");
+                                    exit();
                                 }
                             } else {
                                 echo "<div class='alert alert-danger'>Username and Password are incorrect</div>";}

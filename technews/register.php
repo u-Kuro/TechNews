@@ -78,6 +78,7 @@
                                     // Debug: Show the actual SQL
                                     if(mysqli_query($conn,$sql1)){
                                         header("Location: login.php?username=$username");
+                                        exit();
                                     }
                                 }
                             }//sub else close
