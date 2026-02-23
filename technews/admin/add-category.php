@@ -27,7 +27,7 @@ if(!isset($_SESSION["username"])){
 
                     }else{
                       $sql1="INSERT INTO category(category_name,post,query)
-                             VALUES('{$category}','{0}','{$query}')";
+                             VALUES('{$category}',0,'{$query}')";
 
                           if(mysqli_query($conn,$sql1)){
                             header("Location: category.php");

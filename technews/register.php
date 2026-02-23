@@ -74,7 +74,7 @@
                                     echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
                                 } else {
                                     $sql1="INSERT INTO user(first_name,last_name,username,password,phone_number,role)
-                                        VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}','{0}')";
+                                        VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}',0)";
                                     if(mysqli_query($conn,$sql1)){
                                         header("Location: login.php?username=$username");
                                     }
