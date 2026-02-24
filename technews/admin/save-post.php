@@ -1,11 +1,13 @@
 <?php
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
 
 $title=mysqli_real_escape_string($conn,$_POST['post_title']);
@@ -25,8 +27,8 @@ $sql.="UPDATE category SET post=post+1 WHERE category_id= {$categoryid}";
 
  if(mysqli_multi_query($conn,$sql)){
   header("Location: post.php");
+  exit();
  }else{
   echo "<div class='alert alert-danger'>Query Failed</div>";
 }
 
-?>

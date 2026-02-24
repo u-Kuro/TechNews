@@ -83,4 +83,3 @@ if ($file_not_existing || time() - @filemtime($cacheFile) > $intervalTime) {
         require_once 'api/newsapi/newsapi.php';
     }
 }
-?>

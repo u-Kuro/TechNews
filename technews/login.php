@@ -1,9 +1,44 @@
 <?php
     session_start();
-    if(isset($_SESSION["user_role"])){
-        $_SESSION["user_role"]==1 ? header("Location: admin/post.php") : header("Location: user/home.php");
-    }
     include "config.php";
+    
+    if(isset($_SESSION["user_role"])){
+        if($_SESSION["user_role"]==1){
+            header("Location: admin/post.php");
+        } else {
+            header("Location: user/home.php");
+        }
+        exit();
+    }
+    
+    // Process login form if submitted
+    $error_message = "";
+    if(isset($_POST["login"])){
+        //if field are empty
+        if (empty($_POST["username"]) || empty($_POST["password"])) {
+            $error_message = "<div class='alert alert-danger'>All fields are required and must be entered</div>";
+        } else {
+            $username=mysqli_real_escape_string($conn,$_POST["username"]);
+            $password=md5($_POST["password"]);
+            $sql="SELECT user_id, username, role FROM user WHERE username = '{$username}' AND password = '{$password}' ";
+            $result=mysqli_query($conn,$sql) or die("Query Failed");
+            if(mysqli_num_rows($result) > 0){
+                while($row=mysqli_fetch_assoc($result)){
+                    $_SESSION["user_id"] = $row["user_id"];
+                    $_SESSION["username"] = $row["username"];
+                    $_SESSION["user_role"] = $row["role"];
+                    if($row["role"]==1){
+                        header("Location: admin/post.php");
+                    } else {
+                        header("Location: user/home.php");
+                    }
+                    exit();
+                }
+            } else {
+                $error_message = "<div class='alert alert-danger'>Username and Password are incorrect</div>";
+            }
+        }
+    }
 ?>
 <!doctype html>
 <html>
@@ -52,29 +87,7 @@
                         </form>
                         <!-- /Form  End -->
                         
-                        <?php
-                        if(isset($_POST["login"])){
-                            //if field are empty
-                            if (empty($_POST["username"]) || empty($_POST["password"])) {
-                                echo "<div class='alert alert-danger'>All fieds are required and Entered </div>";
-                            } else {
-                                $username=mysqli_real_escape_string($conn,$_POST["username"]);
-                                $password=md5($_POST["password"]);
-                                $sql="SELECT user_id, username, role FROM user WHERE username = '{$username}' AND password = '{$password}' ";
-                                $result=mysqli_query($conn,$sql) or die("Query Failed");
-                            if(mysqli_num_rows($result) > 0){
-                                while($row=mysqli_fetch_assoc($result)){
-                                    $_SESSION["user_id"] = $row["user_id"];
-                                    $_SESSION["username"] = $row["username"];
-                                    $_SESSION["user_role"] = $row["role"];
-                                    $row["role"]==1 ? header("Location: admin/post.php") : header("Location: user/home.php");
-                                    exit();
-                                }
-                            } else {
-                                echo "<div class='alert alert-danger'>Username and Password are incorrect</div>";}
-                            }//sub else close
-                        } //root if close
-                      ?>
+                        <?php echo $error_message; ?>
                         </div>
                     </div>
                 </div>

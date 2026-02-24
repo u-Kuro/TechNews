@@ -1,11 +1,13 @@
 <?php
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
 
 $title=mysqli_real_escape_string($conn,$_POST['post_title']);
@@ -31,7 +33,7 @@ $result=mysqli_multi_query($conn,$sql);
 
 if($result){ //if query success
 	header("Location: post.php");
+	exit();
 }else{
 echo "Query Failed";
 }
-?>

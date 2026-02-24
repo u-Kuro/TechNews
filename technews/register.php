@@ -1,9 +1,45 @@
 <?php
     session_start();
-    if(isset($_SESSION["user_role"])){
-        $_SESSION["user_role"]==1 ? header("Location: admin/post.php") : header("Location: user/home.php");
-    }
     include "config.php";
+    
+    if(isset($_SESSION["user_role"])){
+        if($_SESSION["user_role"]==1){
+            header("Location: admin/post.php");
+        } else {
+            header("Location: user/home.php");
+        }
+        exit();
+    }
+    
+    // Process registration form if submitted
+    $error_message = "";
+    if(isset($_POST["register"])){
+        //if field are empty
+        $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
+        if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["phone"])) {
+            $error_message = "<div class='alert alert-danger'>All fields are required and must be entered</div>";
+        } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
+            $error_message = "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only)</div>";
+        } else {
+            $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
+            $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
+            $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
+            $username=mysqli_real_escape_string($conn,$_POST["username"]);
+            $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
+            $sql="SELECT username from user WHERE username='{$username}'";
+            $result=mysqli_query($conn,$sql) or die("Query Failed");
+            if(mysqli_num_rows($result) > 0){
+                $error_message = "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
+            } else {
+                $sql1="INSERT INTO user(first_name,last_name,username,password,phone_number,role)
+                    VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}',0)";
+                if(mysqli_query($conn,$sql1)){
+                    header("Location: login.php?username=$username");
+                    exit();
+                }
+            }
+        }
+    }
 ?>
 <!doctype html>
 <html>
@@ -54,36 +90,7 @@
                             </div>
                         </form>
                         <!-- /Form  End -->
-                        <?php
-                        if(isset($_POST["register"])){
-                            //if field are empty
-                            $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
-                            if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["phone"])) {
-                                echo "<div class='alert alert-danger'>All fieds are required and Entered </div>";
-                            } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
-                                echo "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only) </div>";
-                            } else {
-                                $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
-                                $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
-                                $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
-                                $username=mysqli_real_escape_string($conn,$_POST["username"]);
-                                $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
-                                $sql="SELECT username from user WHERE username='{$username}'";
-                                $result=mysqli_query($conn,$sql) or die("Query Failed");
-                                if(mysqli_num_rows($result) > 0){
-                                    echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
-                                } else {
-                                    $sql1="INSERT INTO user(first_name,last_name,username,password,phone_number,role)
-                                        VALUES ('{$fname}','{$lname}','{$username}','{$password}','{$phoneNumber}',0)";
-                                    // Debug: Show the actual SQL
-                                    if(mysqli_query($conn,$sql1)){
-                                        header("Location: login.php?username=$username");
-                                        exit();
-                                    }
-                                }
-                            }//sub else close
-                        } //root if close
-                      ?>
+                        <?php echo $error_message; ?>
                     </div>
                 </div>
             </div>

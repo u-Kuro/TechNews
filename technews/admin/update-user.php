@@ -1,13 +1,16 @@
 <?php 
-ob_start();
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
+
+include "header.php";
 ?>
   <div id="admin-content">
       <div class="container">
@@ -93,6 +96,4 @@ if(!isset($_SESSION["username"])){
       </div>
   </div>
 <?php 
-  include "../footer.php"; 
-  ob_end_flush();
-?>
+  include "../footer.php";

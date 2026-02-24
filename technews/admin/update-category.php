@@ -1,12 +1,16 @@
 <?php
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
+
+include "header.php";
 
 if(isset($_POST["update"])){
   //step 2

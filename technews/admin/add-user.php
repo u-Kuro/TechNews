@@ -1,12 +1,16 @@
-<?php 
+<?php
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
+
+include "header.php";
 //Save User information Into Database
 if(isset($_POST["save"])){
     $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';

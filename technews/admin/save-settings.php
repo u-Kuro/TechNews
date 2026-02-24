@@ -1,11 +1,13 @@
 <?php
 session_start();
 include "../config.php";
-include "header.php";
+
 if(!isset($_SESSION["username"])){
   header("Location: ../login.php");
+  exit();
 } else if($_SESSION["user_role"]==0) {
   header("Location: ../user/home.php");
+  exit();
 }
 
 $result = true;
@@ -78,8 +80,8 @@ if (isset($_POST['submit'])) {
 
 if($result){
   header("location: $location");
+  exit();
 }else{
   echo "Query Failed: Settings";
 }
 
-?>

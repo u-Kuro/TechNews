@@ -3,10 +3,9 @@
     $apiKey = urlencode(getenv("CLICKSEND_API_KEY"));
     $sender = urlencode(getenv("CLICKSEND_SENDER"));
 
-    ////
     $AppWebLink = 'https://technews-j6sa.onrender.com/';
     if (getenv("IS_PROD")) {
-          // Code to run if the script is not running on the localhost
+        // Code to run if the script is not running on the localhost
         // echo __DIR__; // check current directory in webserver
         $cacheFile = '/clicksendapicache.json';
     } else {
@@ -99,4 +98,3 @@
         }
     }
 	
-?>
