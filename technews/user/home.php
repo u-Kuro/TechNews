@@ -25,7 +25,7 @@ include 'header.php';
                 }
                 $offset=($page-1) * $limit;
 
-          $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.author,post.category FROM post
+          $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.content,post.post_img,post.author,post.author,post.category FROM post
           LEFT JOIN category ON post.category=category.category_id
           ORDER BY post_date DESC LIMIT {$offset}, {$limit}";   //view latest post information
 
@@ -41,6 +41,7 @@ include 'header.php';
                     }
                 }
                 $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+                $content = substr(preg_replace("/\s\[\+\d+ chars\]/", "", $row['content']),0,140);
             ?>
                 <div class="post-content">
                     <div class="row">
@@ -65,7 +66,7 @@ include 'header.php';
                                     </span>
                                 </div>
                                 <p class="description">
-                                <?php echo substr($row["description"],0,140)."....";?>
+                                    <?php echo $content;?>
                                 </p>
                                 <a class='read-more pull-right' href="single.php?id=<?php echo $row['post_id'];?>">Read More</a>
                             </div>

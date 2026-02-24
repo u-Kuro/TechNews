@@ -14,7 +14,7 @@ if(!isset($_SESSION["username"])){
     <?php
     $limit=3;
 
-    $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category
+    $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.post_img,post.author,post.category
     FROM post
     LEFT JOIN category ON post.category=category.category_id ORDER BY post_date DESC LIMIT {$limit}";   //view latest post information
 

@@ -44,7 +44,7 @@ include "header.php";
                 <input type="text" name="post_author"  class="form-control" id="exampleInputAuthor" value="<?php echo $row['author']?>">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1"> Description</label>
+                <label for="exampleInputDescription">Description</label>
                 <textarea name="postdesc" class="form-control"  required rows="5">
                 <?php echo $row['description']?>
                 </textarea>

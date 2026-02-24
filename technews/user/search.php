@@ -39,9 +39,9 @@ include 'header.php';
 
                 //SQL Main query which will show the data according to the search
                 //according to title and description
-                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.description,post.post_img,post.author,post.category FROM post
+                $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.content,post.post_img,post.author,post.category FROM post
                 LEFT JOIN category ON post.category=category.category_id
-                WHERE post.title LIKE '%{$search_term}%' OR post.description LIKE '%{$search_term}%' OR post.author LIKE '%{$search_term}%' OR category.category_name LIKE '%{$search_term}%'
+                WHERE post.title LIKE '%{$search_term}%' OR post.content LIKE '%{$search_term}%' OR post.description LIKE '%{$search_term}%' OR post.author LIKE '%{$search_term}%' OR category.category_name LIKE '%{$search_term}%'
                 ORDER BY post_date DESC LIMIT {$offset}, {$limit}";
 
                 $result=mysqli_query($conn,$sql) or die("Query failed :Fetch Search Items");
@@ -56,6 +56,7 @@ include 'header.php';
                             }
                         }
                         $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
+                        $content = substr(preg_replace("/\s\[\+\d+ chars\]/", "", $row['content']),0,140);
                     ?>
                       <div class="post-content">
                           <div class="row">
@@ -80,7 +81,7 @@ include 'header.php';
                                           </span>
                                       </div>
                                       <p class="description">
-                                      <?php echo substr($row["description"],0,140)."....";?>
+                                        <?php echo $content;?>
                                       </p>
                                       <a class='read-more pull-right' href="single.php?id=<?php echo $row['post_id'];?>">Read More</a>
                                   </div>

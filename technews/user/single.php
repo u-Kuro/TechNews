@@ -18,7 +18,7 @@ include 'header.php';
                     <div class="post-container">
                     <?php
                      $post_id= $_GET['id'];
-                     $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.description,post.post_img,post.author,post.category,post.content,post.post_url FROM post
+                     $sql="SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.description,post.post_img,post.author,post.category,post.post_url FROM post
                      LEFT JOIN category ON post.category=category.category_id
                      WHERE post_id={$post_id} ";
 
@@ -34,21 +34,18 @@ include 'header.php';
                             }
                         }
                         $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
-                        $content = $row['content'];
+                        $description = $row['description'];
                         $contentUrl = $row['post_url'];
-                        if(!empty($contentUrl)){
-                            $content = preg_replace("/\[\+\d+ chars\]/", "<a href='$contentUrl'>see more</a>", $content);
-                        } else {
-                            $content = preg_replace("/\[\+\d+ chars\]/", "", $content);
+                        if(!empty($contentUrl)) {
+                            $description = $description."<a href='$contentUrl'>see more</a>";
                         }
                     ?>
                         <div class="post-content single-post">
                             <h3><?php echo $row['title'];?></h3>
                             <div class="post-information">
                                 <span>
-
                                     <i class="fa fa-tags" aria-hidden="true"></i>
-            <a href='category.php?cid=<?php echo $row["category"];?>'> <?php echo $row["category_name"];?></a>
+                                    <a href='category.php?cid=<?php echo $row["category"];?>'> <?php echo $row["category_name"];?></a>
                                 </span>
                                 <span>
                                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -61,7 +58,7 @@ include 'header.php';
                             </div>
                             <?php echo $imgHTML;?>
                             <p class="description">
-                                <?php echo $content;?>
+                                <?php echo $description;?>
                             </p>
                         </div>
                         <?php
