@@ -26,8 +26,8 @@ include "header.php";
                     $offset = ($page - 1) * $limit;
 
                     $sql = "SELECT post.post_id,post.title,category.category_name,post.post_date,post.content,post.post_img,post.author,post.author,post.category FROM post
-          LEFT JOIN category ON post.category=category.category_id
-          ORDER BY post_date DESC LIMIT {$offset}, {$limit}"; //view latest post information
+                            LEFT JOIN category ON post.category=category.category_id
+                            ORDER BY post_date DESC LIMIT {$offset}, {$limit}"; //view latest post information
 
                     ($result = mysqli_query($conn, $sql)) or
                         die("Query failed :fetch posts");
@@ -50,11 +50,19 @@ include "header.php";
                                 "Y-m-d H:i:s",
                                 $row["post_date"],
                             )->format("M d, Y");
-                            $content = preg_replace(
-                                "/\s\[\+\d+ chars\]/",
-                                "",
-                                $row["content"],
-                            );
+                            $rawContent = isset($row["content"]) ? $row["content"] : '';
+                            if (!empty($rawContent)) {
+                                $cleanText = trim(strip_tags($rawContent));
+                                $lines = explode("\n", $cleanText);
+                                if (!empty($lines)) {
+                                    $lastLine = end($lines);
+                                    $content = preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $lastLine);
+                                } else {
+                                    $content = "No content found.";
+                                }
+                            } else {
+                                $content = "";
+                            }
                     ?>
                             <div class="post-content">
                                 <div class="row">

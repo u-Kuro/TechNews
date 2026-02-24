@@ -67,11 +67,19 @@ include "header.php";
                                 "Y-m-d H:i:s",
                                 $row["post_date"],
                             )->format("M d, Y");
-                            $content = preg_replace(
-                                "/\s\[\+\d+ chars\]/",
-                                "",
-                                $row["content"],
-                            );
+                            $rawContent = isset($row["content"]) ? $row["content"] : '';
+                            if (!empty($rawContent)) {
+                                $cleanText = trim(strip_tags($rawContent));
+                                $lines = explode("\n", $cleanText);
+                                if (!empty($lines)) {
+                                    $lastLine = end($lines);
+                                    $content = preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $lastLine);
+                                } else {
+                                    $content = "No content found.";
+                                }
+                            } else {
+                                $content = "";
+                            }
                     ?>
                             <div class="post-content">
                                 <div class="row">
