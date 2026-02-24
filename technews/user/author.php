@@ -64,14 +64,7 @@ include "header.php";
                             )->format("M d, Y");
                             $rawContent = isset($row["content"]) ? $row["content"] : '';
                             if (!empty($rawContent)) {
-                                $cleanText = trim(strip_tags($rawContent));
-                                $lines = explode("\n", $cleanText);
-                                if (!empty($lines)) {
-                                    $lastLine = end($lines);
-                                    $content = preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $lastLine);
-                                } else {
-                                    $content = "No content found.";
-                                }
+                                $content = preg_replace('/\s*\[\+\d+\s*chars\]/i', '', trim(strip_tags($rawContent)));
                             } else {
                                 $content = "";
                             }
