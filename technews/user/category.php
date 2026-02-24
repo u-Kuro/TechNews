@@ -69,7 +69,13 @@ include "header.php";
                             )->format("M d, Y");
                             $rawContent = isset($row["content"]) ? $row["content"] : '';
                             if (!empty($rawContent)) {
-                                $content = preg_replace('/\s*\[\+\d+\s*chars\]/i', '', trim(strip_tags($rawContent)));
+                                $cleanText = strip_tags(preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $rawContent));
+                                $maxChars = 200;
+                                if (mb_strlen($cleanText) > $maxChars) {
+                                    $content = mb_substr($cleanText, 0, $maxChars) . '...';
+                                } else {
+                                    $content = $cleanText;
+                                }
                             } else {
                                 $content = "";
                             }
