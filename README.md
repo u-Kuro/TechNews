@@ -72,7 +72,7 @@ _Registration process_
 ### Architecture
 
 ```
-Frontend: HTML5, CSS3, Bootstrap, JavaScript
+Frontend: HTML5, CSS3, Bootstrap
 Backend: PHP 7.4+
 Database: MySQL
 Hosting: Render & Aiven (Production)
