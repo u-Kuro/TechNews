@@ -1,4 +1,4 @@
-# TechNews - Tech News Platform
+# TechNews - CMS Platform
 
 > **Live Website:** [technews-j6sa.onrender.com](https://technews-j6sa.onrender.com)
 
