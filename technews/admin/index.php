@@ -1,1 +1,1 @@
-<?php include "post.php" ?>
+<?php include "post.php";
