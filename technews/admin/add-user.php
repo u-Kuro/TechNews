@@ -23,7 +23,7 @@ if(isset($_POST["save"])){
         $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
         $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
         $user=mysqli_real_escape_string($conn,$_POST["user"]);
-        $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
+        $password=mysqli_real_escape_string($conn,password_hash($_POST["password"],PASSWORD_BCRYPT));
         $role=mysqli_real_escape_string($conn,$_POST["role"]);
         // Check if username already exists
         // Check query use echo $sql; and after that use die (testing purposes)
@@ -35,7 +35,6 @@ if(isset($_POST["save"])){
             $sql1="INSERT INTO user (first_name,last_name,username,password,phone_number,role)
                     VALUES ('{$fname}','{$lname}','{$user}','{$password}','{$phoneNumber}','{$role}')";
             if(mysqli_query($conn,$sql1)){
-                echo "Successfully Added.";
                 header("Location: users.php");
             }
         }
