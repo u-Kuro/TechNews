@@ -28,7 +28,7 @@
                     <!-- /LOGO -->
                       <!-- LOGO-Out -->
                     <div class="col-md-offset-7 col-md-3">
-                        <a href="../logout.php" class="admin-logout">Hello <?php echo $_SESSION["username"] ?>, logout</a>
+                        <a href="../logout.php" class="admin-logout">Logout</a>
                     </div>
                     <!-- /LOGO-Out -->
                 </div>

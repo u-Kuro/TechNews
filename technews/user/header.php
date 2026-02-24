@@ -80,7 +80,7 @@ switch ($pagename) {
             <!-- /LOGO -->
               <!-- LOGO-Out -->
             <div class="col-md-offset-7 col-md-3">
-                <button onclick="location.href='../logout.php'" class="admin-logout">Hello <?php echo $_SESSION["username"] ?>, logout</button>
+                <button onclick="location.href='../logout.php'" class="admin-logout">Logout</button>
             </div>
             <!-- /LOGO-Out -->
         </div>
