@@ -1,34 +1,148 @@
-# Technology News Website
+# TechNews - Modern Tech News Platform
 
-This is a website that provides users with the latest technology news from around the world. It has both user and admin sides.
+> **Live Demo:** [technews-j6sa.onrender.com](https://technews-j6sa.onrender.com)
 
-## User Side
+---
 
-Users can view news in the following ways:
+## 📱 What is TechNews?
 
-- Home page: The latest technology news will be displayed on the home page.
-- By category: Users can select a specific category such as "Mobile Phones & Tablet", "Hardware", "Software", "Cybersecurity", and can add more.
-- By author: Users can view articles written by a specific author.
-- Search keywords: Users can search for articles based on keywords.
-- Article details: Users can click on a news article and see some details about the article with a "see more" link that takes them to the original journal of the article.
+A full-stack content management system (CMS) for publishing and managing technology news articles. Built with a focus on user experience, real-time updates, and mobile responsiveness.
 
-## Admin Side
+---
 
-Administrators can manage the following on the admin side:
+## 🖼️ Platform Overview
 
-- Posts: Create, update and delete news articles.
-- Categories: Manage the categories of posts.
-- Users: Manage the users of the website, including changing user roles to give them authority as an admin.
-- Footer: Customize the footer of the website.
+### Homepage - Latest Tech Stories
+![Homepage Screenshot](./screenshots/homepage.png)
+*Clean, modern interface displaying the latest technology news with featured images, categories, and easy navigation*
 
-## Automated API Retrieval
+---
 
-The website is integrated with newsapi.org and uses an automated API retrieval system. The system checks for new articles every hour and retrieves the latest news from various sources around the world. Currently, the system is limited to a maximum of 100 API requests per day, ensuring that the website is updated at least every 1 hour and 12 minutes.
+### Article Page - Rich Content Display
+![Article Page Screenshot](./screenshots/article-page.png)
+*Full article view with formatted content, author information, publish date, and related articles*
 
-## SMS Notifications
+---
 
-Users will be notified via SMS when new articles are added to the website. The website is integrated an SMS API (ClickSend) and to ensure that notifications are sent to users located in different parts of the world. The SMS notifications are sent within a few minutes of a new article being added to the website. This is currently very limited since clicksend api only allows 4 SMS send in a single account.
+## 👤 User Features
 
-## Deployed Website URL
+### User Dashboard
+![User Dashboard Screenshot](./screenshots/user-dashboard.png)
+*Personalized dashboard where users can browse articles, search content, and filter by categories*
 
-The deployed website can be found at https://technews-j6sa.onrender.com
+### Smart Search & Filtering
+![Search Feature Screenshot](./screenshots/search.png)
+*Powerful search functionality to find articles by keywords, authors, or categories*
+
+---
+
+## 🔧 Admin Control Panel
+
+### Content Management
+![Admin Dashboard Screenshot](./screenshots/admin-dashboard.png)
+*Comprehensive admin panel for managing all posts, categories, and users from one place*
+
+### Create New Posts
+![Add Post Screenshot](./screenshots/add-post.png)
+*Intuitive editor for creating new articles with:*
+- Title and content editor
+- Image URL integration
+- Category assignment
+- Author attribution
+- Scheduled publishing
+
+### Category Management
+![Categories Screenshot](./screenshots/categories.png)
+*Organize content with custom categories - create, edit, or delete as needed*
+
+### User Management
+![User Management Screenshot](./screenshots/user-management.png)
+*Admin tools to manage user accounts, roles, and permissions*
+
+---
+
+## 🔐 Authentication System
+
+### Secure Login
+![Login Page Screenshot](./screenshots/login.png)
+*Secure authentication system with session management*
+
+### User Registration
+![Registration Screenshot](./screenshots/register.png)
+*Simple registration process with phone number verification*
+
+---
+
+
+## 🛠️ Technical Highlights
+
+### Architecture
+```
+Frontend: HTML5, CSS3, Bootstrap, JavaScript
+Backend: PHP 7.4+
+Database: MySQL
+Hosting: Render & Aiven (Production)
+```
+
+### Key Technical Features
+- **RESTful Architecture** - Clean separation of client and server
+- **Session Management** - Secure user authentication
+- **API Integration** - NewsAPI for automated content updates
+- **SMS Notifications** - ClickSend integration for user alerts
+- **Database Optimization** - Efficient queries with pagination
+
+### Security Implementations
+- SQL Injection Protection (mysqli_real_escape_string)
+- Session Security (proper session handling)
+- Password Hashing (bcrypt)
+- Role-Based Access Control (Admin/User separation)
+- Input Validation & Sanitization
+
+### Technical Achievement
+- Built complete CRUD operations for 3 data models (Posts, Categories, Users)
+- Integrated 2 third-party APIs (NewsAPI, ClickSend)
+- Deployed production-ready application with SSL
+
+---
+
+## 📝 How to Use (Quick Guide)
+
+### For Administrators:
+1. Login with admin credentials
+2. Click "Add Post" to create new articles
+3. Fill in title, content, select category, add image URL
+4. Publish immediately or schedule for later
+5. Manage users and categories from the admin panel
+
+### For Readers:
+1. Visit the homepage to see latest articles
+2. Use search bar to find specific topics
+3. Click categories to browse by subject
+4. Click any article to read full content
+
+---
+
+## 📸 Instructions for Adding Screenshots
+
+To complete this README, please add screenshots to a `screenshots` folder:
+
+1. **homepage.png** - Main landing page showing article list
+2. **article-page.png** - Full article view
+3. **user-dashboard.png** - User's main interface
+4. **search.png** - Search functionality in action
+5. **admin-dashboard.png** - Admin panel overview
+6. **add-post.png** - Create new post interface
+7. **categories.png** - Category management
+8. **user-management.png** - User administration
+9. **login.png** - Login screen
+10. **register.png** - Registration form
+
+### How to Capture Screenshots:
+1. Visit your live site: https://technews-j6sa.onrender.com
+2. Use browser screenshot tools or Snipping Tool (Windows) / Screenshot (Mac)
+3. Capture clean, full-page screenshots
+4. Save with the exact filenames listed above
+5. Upload to `screenshots/` folder in your repository
+6. Screenshots will automatically display in this README
+
+---
