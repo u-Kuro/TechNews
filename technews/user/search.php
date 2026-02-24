@@ -21,7 +21,7 @@ include 'header.php';
                   $search_term= mysqli_real_escape_string($conn,$_GET['search']);
                   }
                    ?>
-                  <h2 class="page-heading">Search : <?php echo $search_term ?></h2>
+                  <h2 class="page-heading">Search: <?php echo $search_term ?></h2>
 
                   <?php
                     if(isset($_GET['search'])){
