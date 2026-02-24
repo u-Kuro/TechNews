@@ -296,8 +296,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `first_name`, `last_name`, `username`, `password`, `phone_number`, `role`) VALUES
-(27, 'admin', 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', '+639159580892', 1),
-(56, 'user', 'user', 'user', 'ee11cbb19052e40b07aac0ca060c23ee', '+639687664978', 0);
+(1, 'admin', 'admin', 'admin', '$2y$10$tVsaQoQA4QTS11q6e3lB4eM0Bg5Apx2HDbaMW9CS6wESxASqgIT3O', '+639082637279', 1),
+(2, 'user', 'user', 'user', '$2y$10$l7spAb4Dj./lr857Yjh5pODaVqfyeBTVaQklYlv.vsMIsPgLeStMS', '+639082637279', 0);
 
 --
 -- Indexes for dumped tables
