@@ -14,18 +14,18 @@
     // Process registration form if submitted
     $error_message = "";
     if(isset($_POST["register"])){
-        //if field are empty
+        // if field are empty
         $validIntFormatNumbersRegx = '/^\+(?:[0-9] ?){6,14}[0-9]$/';
         if (empty($_POST["fname"]) || empty($_POST["lname"]) || empty($_POST["username"]) || empty($_POST["password"]) || empty($_POST["phone"])) {
             $error_message = "<div class='alert alert-danger'>All fields are required and must be entered</div>";
         } else if(!preg_match($validIntFormatNumbersRegx, $_POST["phone"])){
             $error_message = "<div class='alert alert-danger'>You have entered an invalid phone number (International Format Only)</div>";
         } else {
-            $fname=mysqli_real_escape_string($conn,$_POST["fname"]);  //for hacking protection
+            $fname=mysqli_real_escape_string($conn,$_POST["fname"]);
             $lname=mysqli_real_escape_string($conn,$_POST["lname"]);
             $phoneNumber=mysqli_real_escape_string($conn,$_POST["phone"]);
             $username=mysqli_real_escape_string($conn,$_POST["username"]);
-            $password=mysqli_real_escape_string($conn,md5($_POST["password"]));
+            $password=mysqli_real_escape_string($conn,password_hash($_POST["password"],PASSWORD_BCRYPT));
             $sql="SELECT username from user WHERE username='{$username}'";
             $result=mysqli_query($conn,$sql) or die("Query Failed");
             if(mysqli_num_rows($result) > 0){

@@ -19,24 +19,25 @@
             $error_message = "<div class='alert alert-danger'>All fields are required and must be entered</div>";
         } else {
             $username=mysqli_real_escape_string($conn,$_POST["username"]);
-            $password=md5($_POST["password"]);
-            $sql="SELECT user_id, username, role FROM user WHERE username = '{$username}' AND password = '{$password}' ";
+            $password=$_POST["password"];
+            $sql="SELECT user_id, username, role, password FROM user WHERE username = '{$username}'";
             $result=mysqli_query($conn,$sql) or die("Query Failed");
-            if(mysqli_num_rows($result) > 0){
-                while($row=mysqli_fetch_assoc($result)){
-                    $_SESSION["user_id"] = $row["user_id"];
-                    $_SESSION["username"] = $row["username"];
-                    $_SESSION["user_role"] = $row["role"];
-                    if($row["role"]==1){
-                        header("Location: admin/post.php");
-                    } else {
-                        header("Location: user/home.php");
+            if(mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)){
+                    if (password_verify($password, $row["password"])) {    
+                        $_SESSION["user_id"] = $row["user_id"];
+                        $_SESSION["username"] = $row["username"];
+                        $_SESSION["user_role"] = $row["role"];
+                        if($row["role"] == 1){
+                            header("Location: admin/post.php");
+                        } else {
+                            header("Location: user/home.php");
+                        }
+                        exit();
                     }
-                    exit();
                 }
-            } else {
-                $error_message = "<div class='alert alert-danger'>Username and Password are incorrect</div>";
             }
+            $error_message = "<div class='alert alert-danger'>Username and Password are incorrect</div>";
         }
     }
 ?>
