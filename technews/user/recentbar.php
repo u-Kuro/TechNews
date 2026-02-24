@@ -1,3 +1,13 @@
+<?php 
+session_start();
+if(!isset($_SESSION["username"])){
+    header("Location: ../login.php");
+    exit();
+} else if($_SESSION["user_role"]==1) {
+    header("Location: ../admin/post.php");
+    exit();
+}
+?>
 <!-- recent posts box -->
 <div class="recent-post-container">
     <h4>Recent Posts</h4>

@@ -1,3 +1,13 @@
+<?php 
+session_start();
+if(!isset($_SESSION["username"])){
+    header("Location: ../login.php");
+    exit();
+} else if($_SESSION["user_role"]==1) {
+    header("Location: ../admin/post.php");
+    exit();
+}
+?>
 <!-- search box -->
 <div class="search-box-container">
         <h4>Search</h4>
