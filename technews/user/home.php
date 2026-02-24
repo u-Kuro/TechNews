@@ -41,7 +41,7 @@ include 'header.php';
                     }
                 }
                 $post_date = DateTime::createFromFormat('Y-m-d H:i:s', $row['post_date'])->format('M d, Y');
-                $content = substr(preg_replace("/\s\[\+\d+ chars\]/", "", $row['content']),0,140);
+                $content = preg_replace("/\s\[\+\d+ chars\]/", "", $row['content']);
             ?>
                 <div class="post-content">
                     <div class="row">
