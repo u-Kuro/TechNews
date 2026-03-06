@@ -19,25 +19,27 @@ include "header.php";
                 <h1 class="admin-heading">Add New Category</h1>
             </div>
             <div class="col-md-offset-3 col-md-6">
-                <?php if (isset($_POST["save"])) {
-                    $category = mysqli_real_escape_string($conn, $_POST["cat"]); //for hacking protection remove special characters
-                    $query = mysqli_real_escape_string($conn, $_POST["query"]);
-                    // Check if Category Already Exists
-                    $sql = "SELECT category_name from category WHERE category_name='{$category}'";
-                    ($result = mysqli_query($conn, $sql)) or
-                        die("Query failed");
+                <?php
+                if (isset($_POST["save"])) {
+                    $category = mysqli_real_escape_string($conn, $_POST["cat"]);
+                    $query    = mysqli_real_escape_string($conn, $_POST["query"]);
+
+                    // Check if category already exists
+                    $sql    = "SELECT category_name FROM category WHERE category_name = '{$category}'";
+                    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+
                     if (mysqli_num_rows($result) > 0) {
                         echo "<p style='color:red;text-align:center;margin:10px 0;'>Category Name Already Exists</p>";
                     } else {
-                        $sql1 = "INSERT INTO category(category_name,post,query)
-                             VALUES('{$category}',0,'{$query}')";
+                        $sql1 = "INSERT INTO category (category_name, post, query)
+                                 VALUES ('{$category}', 0, '{$query}')";
 
                         if (mysqli_query($conn, $sql1)) {
                             header("Location: category.php");
                         }
                     }
-                } ?>
-                <!-- Form Start -->
+                }
+                ?>
                 <form action="" method="POST" autocomplete="off">
                     <div class="form-group">
                         <label>Category Name</label>
@@ -49,9 +51,8 @@ include "header.php";
                     </div>
                     <input type="submit" name="save" class="btn btn-primary" value="Save" required />
                 </form>
-                <!-- /Form End -->
             </div>
         </div>
     </div>
 </div>
-<?php include "footer.php"; ?>
+<?php include "../footer.php"; ?>

@@ -13,10 +13,12 @@ if (!isset($_SESSION["username"])) {
 $category_id = $_GET["id"];
 
 $sql = "DELETE FROM post WHERE category = {$category_id}";
+
 if (mysqli_query($conn, $sql)) {
     $sql1 = "DELETE FROM category WHERE category_id = {$category_id}";
+
     if (mysqli_query($conn, $sql1)) {
-        header("Location:category.php");
+        header("Location: category.php");
         exit();
     } else {
         echo "<p style='color:red;text-align:center;margin:10px 0;'>Can't be Deleted</p>";
@@ -24,4 +26,5 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo "<p style='color:red;text-align:center;margin:10px 0;'>Can't be Deleted</p>";
 }
+
 mysqli_close($conn);

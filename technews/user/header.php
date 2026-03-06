@@ -1,5 +1,6 @@
 <?php
 session_status() === PHP_SESSION_ACTIVE || session_start();
+
 if (!isset($_SESSION["username"])) {
     header("Location: ../login.php");
     exit();
@@ -7,16 +8,16 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../admin/post.php");
     exit();
 }
-//Dynamic Website Title coding Start
+
+// Dynamic page title
 $pagename = basename($_SERVER["PHP_SELF"]);
-//echo $pagename;
+
 switch ($pagename) {
     case "single.php":
         if (isset($_GET["id"])) {
-            $sql = "SELECT * FROM post WHERE post_id={$_GET["id"]}";
-            ($result = mysqli_query($conn, $sql)) or
-                die("Query Failed : single");
-            $row = mysqli_fetch_assoc($result);
+            $sql        = "SELECT * FROM post WHERE post_id = {$_GET["id"]}";
+            ($result     = mysqli_query($conn, $sql)) or die("Query Failed: single");
+            $row        = mysqli_fetch_assoc($result);
             $page_title = $row["title"] . " News";
         } else {
             $page_title = "No Post Found";
@@ -25,9 +26,9 @@ switch ($pagename) {
 
     case "category.php":
         if (isset($_GET["cid"])) {
-            $sql = "SELECT * FROM category WHERE category_id ={$_GET["cid"]}";
-            ($result = mysqli_query($conn, $sql)) or die("Query Failed :");
-            $row = mysqli_fetch_assoc($result);
+            $sql        = "SELECT * FROM category WHERE category_id = {$_GET["cid"]}";
+            ($result     = mysqli_query($conn, $sql)) or die("Query Failed");
+            $row        = mysqli_fetch_assoc($result);
             $page_title = $row["category_name"] . " News";
         } else {
             $page_title = "No Post Found";
@@ -35,19 +36,11 @@ switch ($pagename) {
         break;
 
     case "author.php":
-        if (isset($_GET["author"])) {
-            $page_title = "News by " . $_GET["author"];
-        } else {
-            $page_title = "No Post Found";
-        }
+        $page_title = isset($_GET["author"]) ? "News by " . $_GET["author"] : "No Post Found";
         break;
 
     case "search.php":
-        if (isset($_GET["search"])) {
-            $page_title = $_GET["search"];
-        } else {
-            $page_title = "No Search Result Found";
-        }
+        $page_title = isset($_GET["search"]) ? $_GET["search"] : "No Search Result Found";
         break;
 
     default:
@@ -62,73 +55,48 @@ switch ($pagename) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title><?php echo $page_title; ?></title>
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
-    <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="../css/font-awesome.css">
-    <!-- Custom stlylesheet -->
     <link rel="stylesheet" href="../css/style2.css">
     <link rel="shortcut icon" href="../images/icon.png" type="image/x-icon">
 </head>
 
 <body>
-    <!-- HEADER -->
     <div id="header-admin">
-        <!-- container -->
         <div class="container">
-            <!-- row -->
             <div class="row">
-                <!-- LOGO -->
                 <div class="col-md-2">
                     <a href="home.php"><img class="logo" src="../images/tech-news-withoutbg.png"></a>
                 </div>
-                <!-- /LOGO -->
-                <!-- LOGO-Out -->
                 <div class="col-md-offset-9 col-md-1">
                     <button onclick="location.href='../logout.php'" class="admin-logout">Logout</button>
                 </div>
-                <!-- /LOGO-Out -->
             </div>
         </div>
     </div>
-    <!-- /HEADER -->
-    <!-- Menu Bar -->
+
     <div id="menu-bar">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <?php
-                    if (isset($_GET["cid"])) {
-                        $cat_id = $_GET["cid"];
-                    }
+                    $cat_id = isset($_GET["cid"]) ? $_GET["cid"] : null;
 
-                    //print Dynamic menus catagory pages
-                    //show the category that has a post inside it
-                    $sql2 = "SELECT * FROM category WHERE post > 0";
-                    ($result2 = mysqli_query($conn, $sql2)) or
-                        die("Query failed :Category");
-                    if (mysqli_num_rows($result2) > 0) {
-                        $active = ""; ?>
+                    // Show only categories that have at least one post
+                    $sql2    = "SELECT * FROM category WHERE post > 0";
+                    ($result2 = mysqli_query($conn, $sql2)) or die("Query failed: Category");
+
+                    if (mysqli_num_rows($result2) > 0) { ?>
                         <ul class='menu'>
-                            <li><a class='' href='<?php echo "home.php"; ?>'>HOME</a></li>
+                            <li><a href='home.php'>HOME</a></li>
                             <?php while ($row2 = mysqli_fetch_assoc($result2)) {
-                                if (isset($_GET["cid"])) {
-                                    if ($row2["category_id"] == $cat_id) {
-                                        $active = "active";
-                                    } else {
-                                        $active = "";
-                                    }
-                                }
+                                $active = ($cat_id && $row2["category_id"] == $cat_id) ? "active" : "";
                                 echo "<li><a class='{$active}' href='category.php?cid={$row2["category_id"]}'>{$row2["category_name"]}</a></li>";
                             } ?>
                         </ul>
-                    <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-    <!-- /Menu Bar -->

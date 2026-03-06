@@ -1,5 +1,6 @@
 <?php
 session_status() === PHP_SESSION_ACTIVE || session_start();
+
 if (!isset($_SESSION["username"])) {
     header("Location: ../login.php");
     exit();
@@ -7,6 +8,7 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../admin/post.php");
     exit();
 }
+
 include "../config.php";
 include "header.php";
 ?>
@@ -14,14 +16,12 @@ include "header.php";
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <!-- post-container -->
                 <div class="post-container">
-                    <?php if (isset($_GET["search"])) {
-                        $search_term = mysqli_real_escape_string(
-                            $conn,
-                            $_GET["search"],
-                        );
-                    } ?>
+                    <?php
+                    if (isset($_GET["search"])) {
+                        $search_term = mysqli_real_escape_string($conn, $_GET["search"]);
+                    }
+                    ?>
                     <h2 class="page-heading">Search: <?php echo $search_term; ?></h2>
 
                     <?php
@@ -29,51 +29,46 @@ include "header.php";
                         $search_term = $_GET["search"];
                     }
 
-                    $limit = 3;
-                    if (isset($_GET["page"])) {
-                        $page = $_GET["page"];
-                    } else {
-                        $page = 1;
-                    }
+                    $limit  = 3;
+                    $page   = isset($_GET["page"]) ? $_GET["page"] : 1;
                     $offset = ($page - 1) * $limit;
 
-                    //SQL Main query which will show the data according to the search
-                    //according to title and description
-                    $sql = "SELECT post.post_id,post.title,category.category_name,post.post_date,post.content,post.post_img,post.author,post.category FROM post
-                LEFT JOIN category ON post.category=category.category_id
-                WHERE post.title LIKE '%{$search_term}%' OR post.content LIKE '%{$search_term}%' OR post.description LIKE '%{$search_term}%' OR post.author LIKE '%{$search_term}%' OR category.category_name LIKE '%{$search_term}%'
-                ORDER BY post_date DESC LIMIT {$offset}, {$limit}";
+                    $sql = "SELECT post.post_id, post.title, category.category_name,
+                                   post.post_date, post.content, post.post_img,
+                                   post.author, post.category
+                            FROM post
+                            LEFT JOIN category ON post.category = category.category_id
+                            WHERE post.title       LIKE '%{$search_term}%'
+                               OR post.content     LIKE '%{$search_term}%'
+                               OR post.description LIKE '%{$search_term}%'
+                               OR post.author      LIKE '%{$search_term}%'
+                               OR category.category_name LIKE '%{$search_term}%'
+                            ORDER BY post_date DESC
+                            LIMIT {$offset}, {$limit}";
 
-                    ($result = mysqli_query($conn, $sql)) or
-                        die("Query failed :Fetch Search Items");
+                    ($result = mysqli_query($conn, $sql)) or die("Query failed: Fetch Search Items");
+
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-
-                            $imgHTML =
-                                '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
+                            $imgHTML    = '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
                             $image_link = $row["post_img"];
+
                             if (!empty($image_link)) {
                                 $headers = @get_headers($image_link);
                                 if ($headers && strpos($headers[0], "200")) {
-                                    $imgHTML =
-                                        '<img src="' .
-                                        $image_link .
-                                        '" alt="blank" loading="lazy" onerror="this.src=\'../images/default-image.png\'"/>';
+                                    $imgHTML = '<img src="' . $image_link . '" alt="blank" loading="lazy" onerror="this.src=\'../images/default-image.png\'"/>';
                                 }
                             }
-                            $post_date = DateTime::createFromFormat(
-                                "Y-m-d H:i:s",
-                                $row["post_date"],
-                            )->format("M d, Y");
+
+                            $post_date  = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
                             $rawContent = isset($row["content"]) ? $row["content"] : '';
+
                             if (!empty($rawContent)) {
                                 $cleanText = strip_tags(preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $rawContent));
-                                $maxChars = 200;
-                                if (mb_strlen($cleanText) > $maxChars) {
-                                    $content = mb_substr($cleanText, 0, $maxChars) . '...';
-                                } else {
-                                    $content = $cleanText;
-                                }
+                                $maxChars  = 200;
+                                $content   = mb_strlen($cleanText) > $maxChars
+                                    ? mb_substr($cleanText, 0, $maxChars) . '...'
+                                    : $cleanText;
                             } else {
                                 $content = "";
                             }
@@ -100,9 +95,7 @@ include "header.php";
                                                     <?php echo $post_date; ?>
                                                 </span>
                                             </div>
-                                            <p class="description">
-                                                <?php echo $content; ?>
-                                            </p>
+                                            <p class="description"><?php echo $content; ?></p>
                                             <a class='read-more pull-right' href="single.php?id=<?php echo $row["post_id"]; ?>">Read More</a>
                                         </div>
                                     </div>
@@ -116,51 +109,29 @@ include "header.php";
                     ?>
 
                     <?php
-                    //show pagenation codes
-                    $sql1 = "SELECT * FROM post WHERE post.title LIKE '%{$search_term}%' ";
-                    ($result1 = mysqli_query($conn, $sql1)) or
-                        die("Query Failed");
+                    // Pagination
+                    $page_sql    = "SELECT * FROM post WHERE post.title LIKE '%{$search_term}%'";
+                    ($result1 = mysqli_query($conn, $page_sql)) or die("Query Failed");
 
                     if (mysqli_num_rows($result1) > 0) {
                         $total_records = mysqli_num_rows($result1);
+                        $total_pages   = ceil($total_records / $limit);
 
-                        //$limit=3;
-                        $total_pages = ceil($total_records / $limit); //return upper value
                         echo "<ul class='pagination admin-pagination'>";
+
                         if ($page > 1) {
-                            //1>2
-                            echo '<li><a href="search.php?search=' .
-                                $search_term .
-                                "&page=" .
-                                ($page - 1) .
-                                '">Prev</a></li>';
+                            echo '<li><a href="search.php?search=' . $search_term . '&page=' . ($page - 1) . '">Prev</a></li>';
                         }
 
                         for ($i = 1; $i <= $total_pages; $i++) {
-                            //means 3 time print buttons
-                            //active class code
-                            if ($i == $page) {
-                                $active = "active";
-                            } else {
-                                $active = "";
-                            }
-                            echo '<li class="' .
-                                $active .
-                                '"><a href="search.php?search=' .
-                                $search_term .
-                                "&page=" .
-                                $i .
-                                '">' .
-                                $i .
-                                "</a></li>";
-                        } //for close
-                        if ($total_pages > $page) {
-                            echo '<li><a href="search.php?search=' .
-                                $search_term .
-                                "&page=" .
-                                ($page + 1) .
-                                '">Next</a></li>';
+                            $active = ($i == $page) ? "active" : "";
+                            echo '<li class="' . $active . '"><a href="search.php?search=' . $search_term . '&page=' . $i . '">' . $i . "</a></li>";
                         }
+
+                        if ($total_pages > $page) {
+                            echo '<li><a href="search.php?search=' . $search_term . '&page=' . ($page + 1) . '">Next</a></li>';
+                        }
+
                         echo "</ul>";
                     }
                     ?>

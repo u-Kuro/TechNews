@@ -1,5 +1,6 @@
 <?php
 session_status() === PHP_SESSION_ACTIVE || session_start();
+
 if (!isset($_SESSION["username"])) {
     header("Location: ../login.php");
     exit();
@@ -8,7 +9,6 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 ?>
-<!-- search box -->
 <div class="search-box-container">
     <h4>Search</h4>
     <form class="search-post" action="search.php" method="GET">
@@ -20,4 +20,3 @@ if (!isset($_SESSION["username"])) {
         </div>
     </form>
 </div>
-<!-- /search box -->

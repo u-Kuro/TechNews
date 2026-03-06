@@ -1,5 +1,6 @@
 <?php
 session_status() === PHP_SESSION_ACTIVE || session_start();
+
 if (!isset($_SESSION["username"])) {
     header("Location: ../login.php");
     exit();
@@ -7,6 +8,7 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../admin/post.php");
     exit();
 }
+
 include "../config.php";
 include "header.php";
 ?>
@@ -14,38 +16,36 @@ include "header.php";
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <!-- post-container -->
                 <div class="post-container">
                     <?php
                     $post_id = $_GET["id"];
-                    $sql = "SELECT post.post_id,post.title,category.category_name,post.post_date,post.author,post.description,post.post_img,post.author,post.category,post.post_url FROM post
-                            LEFT JOIN category ON post.category=category.category_id
-                            WHERE post_id={$post_id}";
+                    $sql     = "SELECT post.post_id, post.title, category.category_name,
+                                       post.post_date, post.author, post.description,
+                                       post.post_img, post.category, post.post_url
+                                FROM post
+                                LEFT JOIN category ON post.category = category.category_id
+                                WHERE post_id = {$post_id}";
 
-                    ($result = mysqli_query($conn, $sql)) or die("Query failed ");
+                    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            $imgHTML = "";
+                            $imgHTML    = "";
                             $image_link = $row["post_img"];
+
                             if (!empty($image_link)) {
                                 $headers = @get_headers($image_link);
                                 if ($headers && strpos($headers[0], "200")) {
-                                    $imgHTML =
-                                        '<img src="' .
-                                        $image_link .
-                                        '" alt="blank" loading="lazy" onerror="this.style.display=\'none\';"/>';
+                                    $imgHTML = '<img src="' . $image_link . '" alt="blank" loading="lazy" onerror="this.style.display=\'none\';"/>';
                                 }
                             }
-                            $post_date = DateTime::createFromFormat(
-                                "Y-m-d H:i:s",
-                                $row["post_date"],
-                            )->format("M d, Y");
+
+                            $post_date   = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
                             $description = $row["description"];
-                            $contentUrl = $row["post_url"];
+                            $contentUrl  = $row["post_url"];
+
                             if (!empty($contentUrl)) {
-                                $description =
-                                    $description .
-                                    "<a href='$contentUrl'>see more</a>";
+                                $description = $description . "<a href='$contentUrl'>see more</a>";
                             }
                     ?>
                             <div class="post-content single-post">
@@ -53,7 +53,7 @@ include "header.php";
                                 <div class="post-information">
                                     <span>
                                         <i class="fa fa-tags" aria-hidden="true"></i>
-                                        <a href='category.php?cid=<?php echo $row["category"]; ?>'> <?php echo $row["category_name"]; ?></a>
+                                        <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"]; ?></a>
                                     </span>
                                     <span>
                                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -65,16 +65,13 @@ include "header.php";
                                     </span>
                                 </div>
                                 <?php echo $imgHTML; ?>
-                                <p class="description">
-                                    <?php echo $description; ?>
-                                </p>
+                                <p class="description"><?php echo $description; ?></p>
                             </div>
                     <?php
                         }
                     }
                     ?>
-                </div>
-                <!-- /post-container -->
+                </div><!-- /post-container -->
             </div>
             <div id="sidebar" class="col-md-4">
                 <?php
