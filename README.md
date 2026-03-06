@@ -1,75 +1,80 @@
-# TechNews - CMS Platform
-
-> **Live Website:** [technews-j6sa.onrender.com](https://technews-j6sa.onrender.com)
+<div align="center">
+  <h1 align="center">TechNews - CMS Platform</h1>
+  <div align="center">
+    <a href="https://technews-j6sa.onrender.com">
+      <img src="./images/web-visit.svg" alt="Website"/>
+    </a>
+  </div>
+</div>
 
 ---
 
-## 📱 What is TechNews?
+# 📱 What is TechNews?
 
 A full-stack content management system (CMS) for publishing and managing technology news articles.
 
 ---
 
-## 👤 User Features
+# 👤 User Features
 
-### Homepage
+## Homepage
 
-![Homepage Screenshot](./screenshots/homepage.png)
+![Homepage Screenshot](./images/homepage.png)
 _Displays the latest technology news with featured images and categories_
 
-### Article Page
+## Article Page
 
-![Article Page Screenshot](./screenshots/article-page.png)
+![Article Page Screenshot](./images/article-page.png)
 _Article view with formatted content, author information, and publish date_
 
-### Search & Filtering
+## Search & Filtering
 
-![Search Feature Screenshot](./screenshots/search.png)
+![Search Feature Screenshot](./images/search.png)
 _Search functionality to find articles by keywords, authors, or categories_
 
 ---
 
-## 🔧 Admin Control Panel
+# 🔧 Admin Control Panel
 
-### Content Management
+## Content Management
 
-![Admin Dashboard Screenshot](./screenshots/admin-dashboard.png)
+![Admin Dashboard Screenshot](./images/admin-dashboard.png)
 _Admin panel for managing all posts, categories, and users in one place_
 
-### Create New Posts
+## Create New Posts
 
-![Add Post Screenshot](./screenshots/add-post.png)
+![Add Post Screenshot](./images/add-post.png)
 _Editor for creating new articles with its corresponding information_
 
-### Category Management
+## Category Management
 
-![Categories Screenshot](./screenshots/categories.png)
+![Categories Screenshot](./images/categories.png)
 _Organize content with custom categories and corresponding query for News API_
 
-### User Management
+## User Management
 
-![User Management Screenshot](./screenshots/user-management.png)
+![User Management Screenshot](./images/user-management.png)
 _Admin tools to manage user accounts, roles, and permissions_
 
 ---
 
-## 🔐 Authentication System
+# 🔐 Authentication System
 
-### Secure Login
+## Main Login
 
-![Login Page Screenshot](./screenshots/login.png)
+![Login Page Screenshot](./images/login.png)
 _Authentication system with session management_
 
-### User Registration
+## User Registration
 
-![Registration Screenshot](./screenshots/register.png)
+![Registration Screenshot](./images/register.png)
 _Registration process_
 
 ---
 
-## 🛠️ Technical Highlights
+# 🛠️ Technical Highlights
 
-### Architecture
+## Architecture
 
 ```
 Frontend: HTML5, CSS3, Bootstrap
@@ -78,14 +83,14 @@ Database: MySQL
 Hosting: Render & Aiven (Production)
 ```
 
-### Key Technical Features
+## Key Technical Features
 
 - **RESTful Architecture** - Clean separation of client and server
 - **Session Management** - Secure user authentication
 - **API Integration** - NewsAPI for automated content updates
 - **SMS Notifications** - ClickSend integration for user alerts
 
-### Security Implementations
+## Security Implementations
 
 - Session Security (proper session handling)
 - Password Hashing (bcrypt)
