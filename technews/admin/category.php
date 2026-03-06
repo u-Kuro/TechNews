@@ -23,7 +23,7 @@ include "header.php";
             </div>
             <div class="col-md-12">
                 <?php
-                $limit = 10;
+                $limit = 5;
                 $page  = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
                 $page = max(1, $page);
                 $offset = ($page - 1) * $limit;

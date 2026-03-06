@@ -28,7 +28,7 @@ include "header.php";
                     <h2 class="page-heading"><?php echo $category_row["category_name"]; ?></h2>
 
                     <?php
-                    $limit  = 10;
+                    $limit  = 3;
                     $page   = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
                     if ($page < 1) $page = 1;
                     $offset = ($page - 1) * $limit;
