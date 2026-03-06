@@ -12,9 +12,9 @@ if (!isset($_SESSION["username"])) {
 
 $user_id = $_GET["id"];
 
-$sql = "DELETE FROM user WHERE user_id = {$user_id}";
+$delete_user_sql = "DELETE FROM user WHERE user_id = {$user_id}";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conn, $delete_user_sql)) {
     header("Location: users.php");
     exit();
 } else {

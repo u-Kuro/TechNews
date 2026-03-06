@@ -21,7 +21,7 @@ $post_id      = mysqli_real_escape_string($conn, $_POST["post_id"]);
 $imageUrl     = mysqli_real_escape_string($conn, $_POST["imageUrl"]);
 $postUrl      = mysqli_real_escape_string($conn, $_POST["postUrl"]);
 
-$sql = "UPDATE post
+$update_post_sql = "UPDATE post
         SET title       = '{$title}',
             author      = '{$author}',
             description = '{$description}',
@@ -34,13 +34,13 @@ $sql = "UPDATE post
 
 // Update category counts if category changed
 if ($old_category != $category) {
-    $sql .= "UPDATE category SET post = post - 1 WHERE category_id = {$old_category};";
-    $sql .= "UPDATE category SET post = post + 1 WHERE category_id = {$category};";
+    $update_post_sql .= "UPDATE category SET post = post - 1 WHERE category_id = {$old_category};";
+    $update_post_sql .= "UPDATE category SET post = post + 1 WHERE category_id = {$category};";
 }
 
-$result = mysqli_multi_query($conn, $sql);
+$update_post_result = mysqli_multi_query($conn, $update_post_sql);
 
-if ($result) {
+if ($update_post_result) {
     header("Location: post.php");
     exit();
 } else {

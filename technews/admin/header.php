@@ -8,7 +8,7 @@
     <title>ADMIN Panel</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <link rel="stylesheet" href="../css/font-awesome.css">
-    <link rel="stylesheet" href="../css/style2.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="shortcut icon" href="../images/icon.png" type="image/x-icon">
 </head>
 

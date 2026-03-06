@@ -41,12 +41,12 @@ include "header.php";
                         <select name="categoryid" class="form-control" required>
                             <option disabled selected value=""> Select Category</option>
                             <?php
-                            $sql    = "SELECT * FROM category";
-                            ($result = mysqli_query($conn, $sql)) or die("Query Failed");
+                            $categories_sql    = "SELECT * FROM category";
+                            ($categories_result = mysqli_query($conn, $categories_sql)) or die("Query Failed");
 
-                            if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='{$row["category_id"]}' required>{$row["category_name"]}</option>";
+                            if (mysqli_num_rows($categories_result) > 0) {
+                                while ($category_row = mysqli_fetch_assoc($categories_result)) {
+                                    echo "<option value='{$category_row["category_id"]}' required>{$category_row["category_name"]}</option>";
                                 }
                             }
                             ?>

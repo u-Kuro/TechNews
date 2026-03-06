@@ -35,16 +35,16 @@ if (isset($_POST["save"])) {
         $role        = mysqli_real_escape_string($conn, $_POST["role"]);
 
         // Check if username already exists
-        $sql    = "SELECT username FROM user WHERE username = '{$user}'";
-        ($result = mysqli_query($conn, $sql)) or die("Query failed");
+        $check_username_sql    = "SELECT username FROM user WHERE username = '{$user}'";
+        ($check_username_result = mysqli_query($conn, $check_username_sql)) or die("Query failed");
 
-        if (mysqli_num_rows($result) > 0) {
+        if (mysqli_num_rows($check_username_result) > 0) {
             echo "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
         } else {
-            $sql1 = "INSERT INTO user (first_name, last_name, username, password, phone_number, role)
+            $insert_user_sql = "INSERT INTO user (first_name, last_name, username, password, phone_number, role)
                      VALUES ('{$fname}', '{$lname}', '{$user}', '{$password}', '{$phoneNumber}', '{$role}')";
 
-            if (mysqli_query($conn, $sql1)) {
+            if (mysqli_query($conn, $insert_user_sql)) {
                 header("Location: users.php");
             }
         }

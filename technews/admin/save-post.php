@@ -19,7 +19,7 @@ $date        = $_POST["datetime"];
 $imageUrl    = mysqli_real_escape_string($conn, $_POST["imageUrl"]);
 $postUrl     = mysqli_real_escape_string($conn, $_POST["postUrl"]);
 
-$sql  = "INSERT INTO post (title, author, description, category, post_url, post_img, post_date, content)
+$save_post_sql  = "INSERT INTO post (title, author, description, category, post_url, post_img, post_date, content)
          VALUES (
              '{$title}',
              '{$author}',
@@ -30,9 +30,9 @@ $sql  = "INSERT INTO post (title, author, description, category, post_url, post_
              STR_TO_DATE('{$date}', '%Y-%m-%dT%H:%i'),
              '{$content}'
          );";
-$sql .= "UPDATE category SET post = post + 1 WHERE category_id = {$categoryid}";
+$save_post_sql .= "UPDATE category SET post = post + 1 WHERE category_id = {$categoryid}";
 
-if (mysqli_multi_query($conn, $sql)) {
+if (mysqli_multi_query($conn, $save_post_sql)) {
     header("Location: post.php");
     exit();
 } else {

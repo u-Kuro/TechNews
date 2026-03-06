@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-12">
                 <?php
-                $sql    = "SELECT * FROM settings";
-                ($result = mysqli_query($conn, $sql)) or die("Query Failed.");
+                $settings_sql    = "SELECT * FROM settings";
+                ($settings_result = mysqli_query($conn, $settings_sql)) or die("Query Failed.");
 
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<span>" . $row["footerdesc"] . "</span>";
+                if (mysqli_num_rows($settings_result) > 0) {
+                    while ($settings_row = mysqli_fetch_assoc($settings_result)) {
+                        echo "<span>" . $settings_row["footerdesc"] . "</span>";
                     }
                 }
                 ?>

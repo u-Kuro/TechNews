@@ -23,12 +23,13 @@ include "header.php";
             </div>
             <div class="col-md-12">
                 <?php
-                $limit  = 5;
-                $page   = isset($_GET["page"]) ? $_GET["page"] : 1;
+                $limit  = 10;
+                $page   = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
+                $page = max(1, $page);
                 $offset = ($page - 1) * $limit;
 
                 if ($_SESSION["user_role"] == 1) {
-                    $sql = "SELECT post.post_id, post.title, category.category_name,
+                    $posts_sql = "SELECT post.post_id, post.title, category.category_name,
                                    post.post_date, post.author, post.category
                             FROM post
                             LEFT JOIN category ON post.category = category.category_id
@@ -36,9 +37,9 @@ include "header.php";
                             LIMIT {$offset}, {$limit}";
                 }
 
-                ($result = mysqli_query($conn, $sql)) or die("Query failed");
+                ($posts_result = mysqli_query($conn, $posts_sql)) or die("Query failed");
 
-                if (mysqli_num_rows($result) > 0) {
+                if (mysqli_num_rows($posts_result) > 0) {
                 ?>
                     <table class="content-table">
                         <thead>
@@ -53,22 +54,22 @@ include "header.php";
                         <tbody>
                             <?php
                             $serial_number = $offset + 1;
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $post_date = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
+                            while ($post = mysqli_fetch_assoc($posts_result)) {
+                                $post_date = DateTime::createFromFormat("Y-m-d H:i:s", $post["post_date"])->format("M d, Y");
                             ?>
                                 <tr>
                                     <td class='id'><?php echo $serial_number; ?></td>
-                                    <td><?php echo $row["title"]; ?></td>
-                                    <td><?php echo $row["category_name"]; ?></td>
+                                    <td><?php echo $post["title"]; ?></td>
+                                    <td><?php echo $post["category_name"]; ?></td>
                                     <td><?php echo $post_date; ?></td>
-                                    <td><?php echo $row["author"]; ?></td>
+                                    <td><?php echo $post["author"]; ?></td>
                                     <td class='edit'>
-                                        <a href='update-post.php?id=<?php echo $row["post_id"]; ?>'>
+                                        <a href='update-post.php?id=<?php echo $post["post_id"]; ?>'>
                                             <i class='fa fa-edit'></i>
                                         </a>
                                     </td>
                                     <td class='delete'>
-                                        <a href='delete-post.php?id=<?php echo $row["post_id"]; ?>&catid=<?php echo $row["category"]; ?>'>
+                                        <a href='delete-post.php?id=<?php echo $post["post_id"]; ?>&catid=<?php echo $post["category"]; ?>'>
                                             <i class='fa fa-trash-o'></i>
                                         </a>
                                     </td>
@@ -83,13 +84,14 @@ include "header.php";
                 <?php
                     // Pagination
                     if ($_SESSION["user_role"] == 1) {
-                        $sql1 = "SELECT * FROM post";
+                        $post_count_sql = "SELECT COUNT(*) as total FROM post";
                     }
 
-                    ($result1 = mysqli_query($conn, $sql1)) or die("Query Failed");
+                    ($post_count_result = mysqli_query($conn, $post_count_sql)) or die("Query Failed");
 
-                    if (mysqli_num_rows($result1) > 0) {
-                        $total_records = mysqli_num_rows($result1);
+                    $post_count_row = mysqli_fetch_assoc($post_count_result);
+                    if ((int)$post_count_row["total"] > 0) {
+                        $total_records = (int)$post_count_row["total"];
                         $total_pages   = ceil($total_records / $limit);
 
                         echo "<ul class='pagination admin-pagination'>";

@@ -23,14 +23,15 @@ include "header.php";
             </div>
             <div class="col-md-12">
                 <?php
-                $limit = 5;
-                $page  = isset($_GET["page"]) ? $_GET["page"] : 1;
+                $limit = 10;
+                $page  = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
+                $page = max(1, $page);
                 $offset = ($page - 1) * $limit;
 
-                $sql = "SELECT * FROM category ORDER BY category_id DESC LIMIT {$offset}, {$limit}";
-                ($result = mysqli_query($conn, $sql)) or die("Query failed");
+                $categories_sql = "SELECT * FROM category ORDER BY category_id DESC LIMIT {$offset}, {$limit}";
+                ($categories_result = mysqli_query($conn, $categories_sql)) or die("Query failed");
 
-                if (mysqli_num_rows($result) > 0) {
+                if (mysqli_num_rows($categories_result) > 0) {
                 ?>
                     <table class="content-table">
                         <thead>
@@ -42,19 +43,19 @@ include "header.php";
                             <th>Delete</th>
                         </thead>
                         <tbody>
-                            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                            <?php while ($category = mysqli_fetch_assoc($categories_result)) { ?>
                                 <tr>
-                                    <td class='id'><?php echo $row["category_id"]; ?></td>
-                                    <td><?php echo $row["category_name"]; ?></td>
-                                    <td><?php echo $row["post"]; ?></td>
-                                    <td><?php echo $row["query"]; ?></td>
+                                    <td class='id'><?php echo $category["category_id"]; ?></td>
+                                    <td><?php echo $category["category_name"]; ?></td>
+                                    <td><?php echo $category["post"]; ?></td>
+                                    <td><?php echo $category["query"]; ?></td>
                                     <td class='edit'>
-                                        <a href='update-category.php?id=<?php echo $row["category_id"]; ?>'>
+                                        <a href='update-category.php?id=<?php echo $category["category_id"]; ?>'>
                                             <i class='fa fa-edit'></i>
                                         </a>
                                     </td>
                                     <td class='delete'>
-                                        <a href='delete-category.php?id=<?php echo $row["category_id"]; ?>'>
+                                        <a href='delete-category.php?id=<?php echo $category["category_id"]; ?>'>
                                             <i class='fa fa-trash-o'></i>
                                         </a>
                                     </td>
@@ -65,11 +66,12 @@ include "header.php";
 
                     <?php
                     // Pagination
-                    $sql1    = "SELECT * FROM category";
-                    ($result1 = mysqli_query($conn, $sql1)) or die("Query Failed");
+                    $category_count_sql = "SELECT COUNT(*) as total FROM category";
+                    ($category_count_result = mysqli_query($conn, $category_count_sql)) or die("Query Failed");
 
-                    if (mysqli_num_rows($result1) > 0) {
-                        $total_records = mysqli_num_rows($result1);
+                    $category_count_row = mysqli_fetch_assoc($category_count_result);
+                    if ((int)$category_count_row["total"] > 0) {
+                        $total_records = (int)$category_count_row["total"];
                         $total_pages   = ceil($total_records / $limit);
 
                         echo "<ul class='pagination admin-pagination'>";

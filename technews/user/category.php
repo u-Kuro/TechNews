@@ -20,19 +20,20 @@ include "header.php";
                     <?php
                     $cat_id = isset($_GET["cid"]) ? $_GET["cid"] : null;
 
-                    $sql2    = "SELECT * FROM category WHERE category_id = {$cat_id}";
-                    ($result2 = mysqli_query($conn, $sql2)) or die("Query Failed");
-                    $row2    = mysqli_fetch_assoc($result2);
+                    $category_name_sql = "SELECT * FROM category WHERE category_id = {$cat_id}";
+                    ($category_name_result = mysqli_query($conn, $category_name_sql)) or die("Query Failed");
+                    $category_row = mysqli_fetch_assoc($category_name_result);
                     ?>
 
-                    <h2 class="page-heading"><?php echo $row2["category_name"]; ?></h2>
+                    <h2 class="page-heading"><?php echo $category_row["category_name"]; ?></h2>
 
                     <?php
-                    $limit  = 3;
-                    $page   = isset($_GET["page"]) ? $_GET["page"] : 1;
+                    $limit  = 10;
+                    $page   = isset($_GET["page"]) ? (int)$_GET["page"] : 1;
+                    if ($page < 1) $page = 1;
                     $offset = ($page - 1) * $limit;
 
-                    $sql = "SELECT post.post_id, post.title, category.category_name,
+                    $category_posts_sql = "SELECT post.post_id, post.title, category.category_name,
                                    post.post_date, post.content, post.author,
                                    post.post_img, post.category
                             FROM post
@@ -41,12 +42,12 @@ include "header.php";
                             ORDER BY post_date DESC
                             LIMIT {$offset}, {$limit}";
 
-                    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+                    ($category_posts_result = mysqli_query($conn, $category_posts_sql)) or die("Query failed");
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
+                    if (mysqli_num_rows($category_posts_result) > 0) {
+                        while ($post = mysqli_fetch_assoc($category_posts_result)) {
                             $imgHTML    = '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
-                            $image_link = $row["post_img"];
+                            $image_link = $post["post_img"];
 
                             if (!empty($image_link)) {
                                 $headers = @get_headers($image_link);
@@ -55,8 +56,8 @@ include "header.php";
                                 }
                             }
 
-                            $post_date  = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
-                            $rawContent = isset($row["content"]) ? $row["content"] : '';
+                            $post_date  = DateTime::createFromFormat("Y-m-d H:i:s", $post["post_date"])->format("M d, Y");
+                            $rawContent = isset($post["content"]) ? $post["content"] : '';
 
                             if (!empty($rawContent)) {
                                 $cleanText = strip_tags(preg_replace('/\s*\[\+\d+\s*chars\]/i', '', $rawContent));
@@ -71,19 +72,19 @@ include "header.php";
                             <div class="post-content">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <a class="post-img" href="single.php?id=<?php echo $row["post_id"]; ?>"><?php echo $imgHTML; ?></a>
+                                        <a class="post-img" href="single.php?id=<?php echo $post["post_id"]; ?>"><?php echo $imgHTML; ?></a>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="inner-content clearfix">
-                                            <h3><a href="single.php?id=<?php echo $row["post_id"]; ?>"><?php echo $row["title"]; ?></a></h3>
+                                            <h3><a href="single.php?id=<?php echo $post["post_id"]; ?>"><?php echo $post["title"]; ?></a></h3>
                                             <div class="post-information">
                                                 <span>
                                                     <i class="fa fa-tags" aria-hidden="true"></i>
-                                                    <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"]; ?></a>
+                                                    <a href='category.php?cid=<?php echo $post["category"]; ?>'><?php echo $post["category_name"]; ?></a>
                                                 </span>
                                                 <span>
                                                     <i class="fa fa-user" aria-hidden="true"></i>
-                                                    <a href='author.php?author=<?php echo $row["author"]; ?>'><?php echo $row["author"]; ?></a>
+                                                    <a href='author.php?author=<?php echo $post["author"]; ?>'><?php echo $post["author"]; ?></a>
                                                 </span>
                                                 <span>
                                                     <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -91,7 +92,7 @@ include "header.php";
                                                 </span>
                                             </div>
                                             <p class="description"><?php echo $content; ?></p>
-                                            <a class='read-more pull-right' href="single.php?id=<?php echo $row["post_id"]; ?>">Read More</a>
+                                            <a class='read-more pull-right' href="single.php?id=<?php echo $post["post_id"]; ?>">Read More</a>
                                         </div>
                                     </div>
                                 </div>
@@ -105,12 +106,12 @@ include "header.php";
 
                     <?php
                     // Pagination
-                    $sql1    = "SELECT * FROM category WHERE category_id = {$cat_id}";
-                    ($result1 = mysqli_query($conn, $sql1)) or die("Query Failed");
-                    $row     = mysqli_fetch_assoc($result1);
+                    $post_count_sql = "SELECT COUNT(*) as total FROM post WHERE category = " . (int)$cat_id;
+                    ($post_count_result = mysqli_query($conn, $post_count_sql)) or die("Query Failed");
+                    $post_count_row = mysqli_fetch_assoc($post_count_result);
+                    $total_records = (int)$post_count_row["total"];
 
-                    if (mysqli_num_rows($result1) > 0) {
-                        $total_records = $row["post"];
+                    if ($total_records > 0) {
                         $total_pages   = ceil($total_records / $limit);
 
                         echo "<ul class='pagination admin-pagination'>";

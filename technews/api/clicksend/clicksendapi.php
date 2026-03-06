@@ -32,42 +32,42 @@ if ($manualUpdate || $file_not_existing || time() - @filemtime($cacheFile) > $in
     touch($cacheFile);
 
     $api_name = "clicksend";
-    $sql      = "SELECT last_update FROM api_interval WHERE api_name = '{$api_name}'";
-    $result   = mysqli_query($conn, $sql);
+    $fetch_api_interval_sql      = "SELECT last_update FROM api_interval WHERE api_name = '{$api_name}'";
+    $api_interval_result   = mysqli_query($conn, $fetch_api_interval_sql);
 
-    if (mysqli_num_rows($result) > 0) {
-        $row         = mysqli_fetch_assoc($result);
-        $last_update = $row["last_update"];
+    if (mysqli_num_rows($api_interval_result) > 0) {
+        $api_interval_row         = mysqli_fetch_assoc($api_interval_result);
+        $last_update = $api_interval_row["last_update"];
         $time_diff   = time() - strtotime($last_update);
 
         if ($manualUpdate || $time_diff >= $intervalTime) {
-            $sql1 = "UPDATE api_interval
+            $update_interval_sql = "UPDATE api_interval
                      SET last_update = CONVERT_TZ(NOW(), @@session.time_zone, '+00:00')
                      WHERE api_name = '{$api_name}'";
-            mysqli_query($conn, $sql1);
+            mysqli_query($conn, $update_interval_sql);
             $shouldRunAPI = true;
         }
     } else {
-        $sql2 = "INSERT INTO api_interval (api_name, last_update)
+        $insert_interval_sql = "INSERT INTO api_interval (api_name, last_update)
                  VALUES ('{$api_name}', CONVERT_TZ(NOW(), @@session.time_zone, '+00:00'))";
-        mysqli_query($conn, $sql2);
+        mysqli_query($conn, $insert_interval_sql);
         $shouldRunAPI = true;
     }
 
     if ($shouldRunAPI) {
         // Select valid international format phone numbers for all normal users
         $validIntFormatNumbersRegx = '^\\\+(?:[0-9] ?){6,14}[0-9]$';
-        $sql3 = "SELECT DISTINCT phone_number FROM user
+        $phone_numbers_sql = "SELECT DISTINCT phone_number FROM user
                  WHERE phone_number IS NOT NULL
                    AND phone_number REGEXP '{$validIntFormatNumbersRegx}'
                    AND role = '0'
                  LIMIT 30;";
-        $result1 = mysqli_query($conn, $sql3);
+        $phone_numbers_result = mysqli_query($conn, $phone_numbers_sql);
 
-        if (mysqli_num_rows($result1) > 0) {
+        if (mysqli_num_rows($phone_numbers_result) > 0) {
             $numbersArr = [];
-            while ($row = mysqli_fetch_assoc($result1)) {
-                $numbersArr[] = $row["phone_number"];
+            while ($phone_number_row = mysqli_fetch_assoc($phone_numbers_result)) {
+                $numbersArr[] = $phone_number_row["phone_number"];
             }
             $numbers = implode(",", $numbersArr);
 

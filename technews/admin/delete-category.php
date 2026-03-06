@@ -12,12 +12,12 @@ if (!isset($_SESSION["username"])) {
 
 $category_id = $_GET["id"];
 
-$sql = "DELETE FROM post WHERE category = {$category_id}";
+$delete_posts_sql = "DELETE FROM post WHERE category = {$category_id}";
 
-if (mysqli_query($conn, $sql)) {
-    $sql1 = "DELETE FROM category WHERE category_id = {$category_id}";
+if (mysqli_query($conn, $delete_posts_sql)) {
+    $delete_category_sql = "DELETE FROM category WHERE category_id = {$category_id}";
 
-    if (mysqli_query($conn, $sql1)) {
+    if (mysqli_query($conn, $delete_category_sql)) {
         header("Location: category.php");
         exit();
     } else {

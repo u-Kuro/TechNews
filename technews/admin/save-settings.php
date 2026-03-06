@@ -10,7 +10,7 @@ if (!isset($_SESSION["username"])) {
     exit();
 }
 
-$result   = true;
+$save_settings_result   = true;
 $location = "settings.php";
 
 if (isset($_POST["submit"])) {
@@ -44,14 +44,14 @@ if (isset($_POST["submit"])) {
         }
     }
 
-    $sql    = "UPDATE settings SET websitename='{$_POST["website_name"]}', logo='{$file_name}', footerdesc='{$_POST["footer_desc"]}'";
-    $result = mysqli_query($conn, $sql);
+    $update_settings_sql    = "UPDATE settings SET websitename='{$_POST["website_name"]}', logo='{$file_name}', footerdesc='{$_POST["footer_desc"]}'";
+    $save_settings_result = mysqli_query($conn, $update_settings_sql);
 } elseif (isset($_POST["send-sms"])) {
     // Reset API intervals so both APIs run immediately
     $apis = ["newsapi", "clicksend"];
     foreach ($apis as $api) {
-        $sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api}'";
-        mysqli_query($conn, $sql);
+        $reset_api_interval_sql = "UPDATE api_interval SET last_update = NOW() WHERE api_name = '{$api}'";
+        mysqli_query($conn, $reset_api_interval_sql);
     }
 
     if (getenv("IS_PROD")) {
@@ -80,7 +80,7 @@ if (isset($_POST["submit"])) {
     }
 }
 
-if ($result) {
+if ($save_settings_result) {
     header("location: $location");
     exit();
 } else {

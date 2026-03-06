@@ -4,17 +4,17 @@ date_default_timezone_set("UTC");
 
 $apiKey    = getenv("NEWSAPI_KEY");
 $apiurl    = "https://newsapi.org/v2/everything";
-$sql0      = "SELECT * FROM category";
-($result0   = mysqli_query($conn, $sql0)) or die("Query Failed");
+$categories_sql  = "SELECT * FROM category";
+($categories_result = mysqli_query($conn, $categories_sql)) or die("Query Failed");
 
 $newArticlesCount  = 0;
 $newArticleTitles  = [];
 
-if (mysqli_num_rows($result0) > 0) {
-    while ($row = mysqli_fetch_assoc($result0)) {
-        $category       = $row["category_name"];
-        $query          = $row["query"];
-        $categoryNumber = $row["category_id"];
+if (mysqli_num_rows($categories_result) > 0) {
+    while ($category_row = mysqli_fetch_assoc($categories_result)) {
+        $category       = $category_row["category_name"];
+        $query          = $category_row["query"];
+        $categoryNumber = $category_row["category_id"];
 
         $params = [
             "q"        => $query,
@@ -60,10 +60,10 @@ if (mysqli_num_rows($result0) > 0) {
                         $title = mysqli_real_escape_string($conn, $article["title"]);
                         $url   = mysqli_real_escape_string($conn, $article["url"]);
 
-                        $sql    = "SELECT * FROM post WHERE title = '{$title}' OR post_url = '{$url}' LIMIT 1;";
-                        ($result = mysqli_query($conn, $sql)) or die("Query Failed");
+                        $check_duplicate_sql    = "SELECT * FROM post WHERE title = '{$title}' OR post_url = '{$url}' LIMIT 1;";
+                        ($check_duplicate_result = mysqli_query($conn, $check_duplicate_sql)) or die("Query Failed");
 
-                        if (mysqli_num_rows($result) <= 0) {
+                        if (mysqli_num_rows($check_duplicate_result) <= 0) {
                             // New article — insert it
                             $description = mysqli_real_escape_string($conn, $article["description"]);
                             $category    = $categoryNumber;
@@ -78,12 +78,12 @@ if (mysqli_num_rows($result0) > 0) {
                             }, true);
 
                             if ($allValuesAreValid) {
-                                $sql1 = "INSERT INTO post (title, description, category, post_date, author, post_img, content, post_url)
+                                $insert_post_sql = "INSERT INTO post (title, description, category, post_date, author, post_img, content, post_url)
                                          VALUES ('{$title}', '{$description}', '{$category}', '{$post_date}', '{$author}', '{$post_img}', '{$content}', '{$url}');";
-                                mysqli_query($conn, $sql1);
+                                mysqli_query($conn, $insert_post_sql);
 
-                                $sql2 = "UPDATE category SET post = post + 1 WHERE category_id = {$categoryNumber};";
-                                mysqli_query($conn, $sql2);
+                                $update_post_count_sql = "UPDATE category SET post = post + 1 WHERE category_id = {$categoryNumber};";
+                                mysqli_query($conn, $update_post_count_sql);
 
                                 $newArticlesCount++;
                                 if ($newArticlesCount <= 3) {

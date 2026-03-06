@@ -14,19 +14,19 @@ if (!isset($_SESSION["username"])) {
     <h4>Recent Posts</h4>
     <?php
     $limit = 3;
-    $sql   = "SELECT post.post_id, post.title, category.category_name,
+    $recent_posts_sql   = "SELECT post.post_id, post.title, category.category_name,
                      post.post_date, post.post_img, post.author, post.category
               FROM post
               LEFT JOIN category ON post.category = category.category_id
               ORDER BY post_date DESC
               LIMIT {$limit}";
 
-    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+    ($recent_posts_result = mysqli_query($conn, $recent_posts_sql)) or die("Query failed");
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
+    if (mysqli_num_rows($recent_posts_result) > 0) {
+        while ($recent_post_row = mysqli_fetch_assoc($recent_posts_result)) {
             $imgHTML    = '<img src="../images/default-image.png" alt="blank" loading="lazy"/>';
-            $image_link = $row["post_img"];
+            $image_link = $recent_post_row["post_img"];
 
             if (!empty($image_link)) {
                 $headers = @get_headers($image_link);
@@ -35,23 +35,23 @@ if (!isset($_SESSION["username"])) {
                 }
             }
 
-            $post_date = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
+            $post_date = DateTime::createFromFormat("Y-m-d H:i:s", $recent_post_row["post_date"])->format("M d, Y");
     ?>
             <div class="recent-post">
-                <a class="post-img" href="single.php?id=<?php echo $row["post_id"]; ?>">
+                <a class="post-img" href="single.php?id=<?php echo $recent_post_row["post_id"]; ?>">
                     <?php echo $imgHTML; ?>
                 </a>
                 <div class="post-content">
-                    <h5><a href="single.php?id=<?php echo $row["post_id"]; ?>"><?php echo $row["title"]; ?></a></h5>
+                    <h5><a href="single.php?id=<?php echo $recent_post_row["post_id"]; ?>"><?php echo $recent_post_row["title"]; ?></a></h5>
                     <span>
                         <i class="fa fa-tags" aria-hidden="true"></i>
-                        <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"]; ?></a>
+                        <a href='category.php?cid=<?php echo $recent_post_row["category"]; ?>'><?php echo $recent_post_row["category_name"]; ?></a>
                     </span>
                     <span>
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         <?php echo $post_date; ?>
                     </span>
-                    <a class="read-more" href="single.php?id=<?php echo $row["post_id"]; ?>">read more</a>
+                    <a class="read-more" href="single.php?id=<?php echo $recent_post_row["post_id"]; ?>">read more</a>
                 </div>
             </div>
     <?php

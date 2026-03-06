@@ -19,19 +19,19 @@ include "header.php";
                 <div class="post-container">
                     <?php
                     $post_id = $_GET["id"];
-                    $sql     = "SELECT post.post_id, post.title, category.category_name,
+                    $fetch_post_sql     = "SELECT post.post_id, post.title, category.category_name,
                                        post.post_date, post.author, post.description,
                                        post.post_img, post.category, post.post_url
                                 FROM post
                                 LEFT JOIN category ON post.category = category.category_id
                                 WHERE post_id = {$post_id}";
 
-                    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+                    ($fetch_post_result = mysqli_query($conn, $fetch_post_sql)) or die("Query failed");
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
+                    if (mysqli_num_rows($fetch_post_result) > 0) {
+                        while ($post_row = mysqli_fetch_assoc($fetch_post_result)) {
                             $imgHTML    = "";
-                            $image_link = $row["post_img"];
+                            $image_link = $post_row["post_img"];
 
                             if (!empty($image_link)) {
                                 $headers = @get_headers($image_link);
@@ -40,24 +40,24 @@ include "header.php";
                                 }
                             }
 
-                            $post_date   = DateTime::createFromFormat("Y-m-d H:i:s", $row["post_date"])->format("M d, Y");
-                            $description = $row["description"];
-                            $contentUrl  = $row["post_url"];
+                            $post_date   = DateTime::createFromFormat("Y-m-d H:i:s", $post_row["post_date"])->format("M d, Y");
+                            $description = $post_row["description"];
+                            $contentUrl  = $post_row["post_url"];
 
                             if (!empty($contentUrl)) {
                                 $description = $description . "<a href='$contentUrl'>see more</a>";
                             }
                     ?>
                             <div class="post-content single-post">
-                                <h3><?php echo $row["title"]; ?></h3>
+                                <h3><?php echo $post_row["title"]; ?></h3>
                                 <div class="post-information">
                                     <span>
                                         <i class="fa fa-tags" aria-hidden="true"></i>
-                                        <a href='category.php?cid=<?php echo $row["category"]; ?>'><?php echo $row["category_name"]; ?></a>
+                                        <a href='category.php?cid=<?php echo $post_row["category"]; ?>'><?php echo $post_row["category_name"]; ?></a>
                                     </span>
                                     <span>
                                         <i class="fa fa-user" aria-hidden="true"></i>
-                                        <a href='author.php?author=<?php echo $row["author"]; ?>'><?php echo $row["author"]; ?></a>
+                                        <a href='author.php?author=<?php echo $post_row["author"]; ?>'><?php echo $post_row["author"]; ?></a>
                                     </span>
                                     <span>
                                         <i class="fa fa-calendar" aria-hidden="true"></i>

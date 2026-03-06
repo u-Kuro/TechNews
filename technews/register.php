@@ -33,16 +33,16 @@ if (isset($_POST["register"])) {
         $username    = mysqli_real_escape_string($conn, $_POST["username"]);
         $password    = mysqli_real_escape_string($conn, password_hash($_POST["password"], PASSWORD_BCRYPT));
 
-        $sql    = "SELECT username FROM user WHERE username = '{$username}'";
-        ($result = mysqli_query($conn, $sql)) or die("Query Failed");
+        $check_username_sql    = "SELECT username FROM user WHERE username = '{$username}'";
+        ($check_username_result = mysqli_query($conn, $check_username_sql)) or die("Query Failed");
 
-        if (mysqli_num_rows($result) > 0) {
+        if (mysqli_num_rows($check_username_result) > 0) {
             $error_message = "<p style='color:red;text-align:center;margin:10px 0;'>UserName Already Exists</p>";
         } else {
-            $sql1 = "INSERT INTO user (first_name, last_name, username, password, phone_number, role)
+            $insert_user_sql = "INSERT INTO user (first_name, last_name, username, password, phone_number, role)
                      VALUES ('{$fname}', '{$lname}', '{$username}', '{$password}', '{$phoneNumber}', 0)";
 
-            if (mysqli_query($conn, $sql1)) {
+            if (mysqli_query($conn, $insert_user_sql)) {
                 header("Location: login.php?username=$username");
                 exit();
             }

@@ -25,16 +25,16 @@ include "header.php";
                     $query    = mysqli_real_escape_string($conn, $_POST["query"]);
 
                     // Check if category already exists
-                    $sql    = "SELECT category_name FROM category WHERE category_name = '{$category}'";
-                    ($result = mysqli_query($conn, $sql)) or die("Query failed");
+                    $check_category_sql    = "SELECT category_name FROM category WHERE category_name = '{$category}'";
+                    ($check_category_result = mysqli_query($conn, $check_category_sql)) or die("Query failed");
 
-                    if (mysqli_num_rows($result) > 0) {
+                    if (mysqli_num_rows($check_category_result) > 0) {
                         echo "<p style='color:red;text-align:center;margin:10px 0;'>Category Name Already Exists</p>";
                     } else {
-                        $sql1 = "INSERT INTO category (category_name, post, query)
+                        $insert_category_sql = "INSERT INTO category (category_name, post, query)
                                  VALUES ('{$category}', 0, '{$query}')";
 
-                        if (mysqli_query($conn, $sql1)) {
+                        if (mysqli_query($conn, $insert_category_sql)) {
                             header("Location: category.php");
                         }
                     }

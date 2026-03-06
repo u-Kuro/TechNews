@@ -20,17 +20,17 @@ if (isset($_POST["login"])) {
         $username = mysqli_real_escape_string($conn, $_POST["username"]);
         $password = $_POST["password"];
 
-        $sql    = "SELECT user_id, username, role, password FROM user WHERE username = '{$username}'";
-        ($result = mysqli_query($conn, $sql)) or die("Query Failed");
+        $fetch_user_sql    = "SELECT user_id, username, role, password FROM user WHERE username = '{$username}'";
+        ($fetch_user_result = mysqli_query($conn, $fetch_user_sql)) or die("Query Failed");
 
-        if (mysqli_num_rows($result) > 0) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                if (password_verify($password, $row["password"])) {
-                    $_SESSION["user_id"]   = $row["user_id"];
-                    $_SESSION["username"]  = $row["username"];
-                    $_SESSION["user_role"] = $row["role"];
+        if (mysqli_num_rows($fetch_user_result) > 0) {
+            while ($user_row = mysqli_fetch_assoc($fetch_user_result)) {
+                if (password_verify($password, $user_row["password"])) {
+                    $_SESSION["user_id"]   = $user_row["user_id"];
+                    $_SESSION["username"]  = $user_row["username"];
+                    $_SESSION["user_role"] = $user_row["role"];
 
-                    if ($row["role"] == 1) {
+                    if ($user_row["role"] == 1) {
                         header("Location: admin/post.php");
                     } else {
                         header("Location: user/home.php");
