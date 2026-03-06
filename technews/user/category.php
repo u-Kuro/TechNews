@@ -113,23 +113,23 @@ include "header.php";
                         $total_records = $row["post"];
                         $total_pages   = ceil($total_records / $limit);
 
-                        $current_group = ceil($page / 3);
-                        $start         = ($current_group - 1) * 3 + 1;
-                        $end           = min($start + 2, $total_pages);
-
                         echo "<ul class='pagination admin-pagination'>";
 
                         if ($page > 1) {
                             echo '<li><a href="category.php?cid=' . $cat_id . '&page=' . ($page - 1) . '">Prev</a></li>';
                         }
 
+                        $current_group = ceil($page / 3);
+                        $start = ($current_group - 1) * 3 + 1;
+                        $end   = min($start + 2, $total_pages);
+
                         for ($i = $start; $i <= $end; $i++) {
                             $active = ($i == $page) ? "active" : "";
                             echo '<li class="' . $active . '"><a href="category.php?cid=' . $cat_id . '&page=' . $i . '">' . $i . "</a></li>";
                         }
 
-                        if ($current_group * 3 < $total_pages) {
-                            echo '<li><a href="category.php?cid=' . $cat_id . '&page=' . ($end + 1) . '">Next</a></li>';
+                        if ($page < $total_pages) {
+                            echo '<li><a href="category.php?cid=' . $cat_id . '&page=' . ($page + 1) . '">Next</a></li>';
                         }
 
                         echo "</ul>";

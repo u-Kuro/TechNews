@@ -110,12 +110,16 @@ include "header.php";
                             echo '<li><a href="author.php?author=' . $author . '&page=' . ($page - 1) . '">Prev</a></li>';
                         }
 
-                        for ($i = 1; $i <= $total_pages; $i++) {
+                        $current_group = ceil($page / 3);
+                        $start = ($current_group - 1) * 3 + 1;
+                        $end   = min($start + 2, $total_pages);
+
+                        for ($i = $start; $i <= $end; $i++) {
                             $active = ($i == $page) ? "active" : "";
                             echo '<li class="' . $active . '"><a href="author.php?author=' . $author . '&page=' . $i . '">' . $i . "</a></li>";
                         }
 
-                        if ($total_pages > $page) {
+                        if ($page < $total_pages) {
                             echo '<li><a href="author.php?author=' . $author . '&page=' . ($page + 1) . '">Next</a></li>';
                         }
 

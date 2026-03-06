@@ -87,7 +87,7 @@ include "header.php";
                             echo '<li class="' . $active . '"><a href="category.php?page=' . $i . '">' . $i . "</a></li>";
                         }
 
-                        if ($current_group * 3 < $total_pages) {
+                        if ($page < $total_pages) {
                             echo '<li><a href="category.php?page=' . ($page + 1) . '">Next</a></li>';
                         }
 

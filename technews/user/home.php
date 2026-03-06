@@ -100,25 +100,24 @@ include "header.php";
                     if (mysqli_num_rows($result1) > 0) {
                         $total_records = mysqli_num_rows($result1);
                         $total_pages   = ceil($total_records / $limit);
-                        $current_page  = isset($_GET["page"]) ? $_GET["page"] : 1;
-                        $start         = ($current_page - 1) * $limit;
 
                         echo "<ul class='pagination admin-pagination'>";
 
-                        if ($current_page > 1) {
-                            echo '<li><a href="home.php?page=' . ($current_page - 1) . '">Prev</a></li>';
+                        if ($page > 1) {
+                            echo '<li><a href="home.php?page=' . ($page - 1) . '">Prev</a></li>';
                         }
 
-                        $end   = min($current_page + 2, $total_pages);
-                        $start = max($end - 2, 1);
+                        $current_group = ceil($page / 3);
+                        $start = ($current_group - 1) * 3 + 1;
+                        $end   = min($start + 2, $total_pages);
 
                         for ($i = $start; $i <= $end; $i++) {
-                            $active = ($i == $current_page) ? "active" : "";
+                            $active = ($i == $page) ? "active" : "";
                             echo '<li class="' . $active . '"><a href="home.php?page=' . $i . '">' . $i . "</a></li>";
                         }
 
-                        if ($current_page + 2 < $total_pages) {
-                            echo '<li><a href="home.php?page=' . ($current_page + 3) . '">Next</a></li>';
+                        if ($page < $total_pages) {
+                            echo '<li><a href="home.php?page=' . ($page + 1) . '">Next</a></li>';
                         }
 
                         echo "</ul>";
